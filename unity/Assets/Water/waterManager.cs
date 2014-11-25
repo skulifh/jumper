@@ -19,7 +19,7 @@ public class waterManager : MonoBehaviour {
 		float x = -9f;
 		float y = 1.5f;
 		float width = 18;
-		float height = .6f;
+		float height = 2f;
 		float droplet_width = 0.1f;
 		float droplet_height = 0.1f;
 		//rows
