@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
 	public float acceleration;
 	public Vector3 jumpVelocity;
 	public bool boost;
+	private static int collected;
 	
 	private bool touchingPlatform;
 	
@@ -40,6 +41,11 @@ public class Player : MonoBehaviour {
 	//		rigidbody.AddForce(acceleration, 0f, 0f, ForceMode.Acceleration);
 	//	}
 	//}
+	
+	public static void AddCollectPoint(){
+		collected += 1;
+		//GUIManager.SetBoosts(boosts);
+	}
 
 	void OnCollisionEnter () {
 		touchingPlatform = true;

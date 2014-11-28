@@ -9,6 +9,7 @@ public class PlatformManager : MonoBehaviour {
 	public Vector3 startPosition;
 	public Vector3 minSize, maxSize, minGap, maxGap;
 	public float minY, maxY;
+	public CollectCube collectcube;
 
 	private Vector3 nextPosition;
 	private Queue<Transform> objectQueue;
@@ -39,6 +40,9 @@ public class PlatformManager : MonoBehaviour {
 		Vector3 position = nextPosition;
 		position.x += scale.x * 0.5f;
 		position.y += scale.y * 0.5f;
+		//if (collectcube != null){
+		collectcube.SpawnIfAvailable(position);
+		//}
 
 		Transform o = objectQueue.Dequeue();
 		o.localScale = scale;

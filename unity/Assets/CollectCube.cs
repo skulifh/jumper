@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class CollectCubeManager : MonoBehaviour {
+public class CollectCube : MonoBehaviour {
 	public Vector3 offset;
 	public float recycleOffset, spawnChance;
 
@@ -22,6 +21,7 @@ public class CollectCubeManager : MonoBehaviour {
 	
 	void OnTriggerEnter () {
 		//Runner.AddBoost();
+		Player.AddCollectPoint();
 		gameObject.SetActive(false);
 	}
 	
