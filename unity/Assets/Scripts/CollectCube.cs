@@ -7,7 +7,7 @@ public class CollectCube : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//GameEventManager.GameOver += GameOver;
+		GameEventManager.GameOver += GameOver;
 		gameObject.SetActive(false);
 	}
 	

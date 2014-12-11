@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		GameEventManager.GameOver += GameOver;
 		gameObject.SetActive(false);
 	}
 	
