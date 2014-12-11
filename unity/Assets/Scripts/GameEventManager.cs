@@ -1,4 +1,4 @@
-﻿public static class GameEventManager {
+﻿public class GameEventManager {
 
 	public delegate void GameEvent();
 

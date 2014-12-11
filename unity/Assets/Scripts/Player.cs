@@ -3,16 +3,25 @@
 public class Player : MonoBehaviour {
 
 	public static float distanceTraveled;
+
 	
 	public float acceleration;
 	public Vector3 jumpVelocity;
 	public bool boost;
 	private static int collected;
+	public float gameOverY;
+	private Vector3 startPosition;
 	
 	private bool touchingPlatform;
 	
 	void Start() {
+		GameEventManager.GameStart += GameStart;
+		GameEventManager.GameOver += GameOver;
+		startPosition = transform.localPosition;
 		Physics.gravity = new Vector3(0, -100.0F, 0);
+		renderer.enabled = false;
+		rigidbody.isKinematic = true;
+		enabled = false;
 	}
 	
 	void Update () {
@@ -21,10 +30,15 @@ public class Player : MonoBehaviour {
 			if (!touchingPlatform){
 				boost = false;
 			}
+			else{
+				boost = true;
+			}
+			
 		}
 
 		
 		distanceTraveled = transform.localPosition.x;
+		GUIManager.SetScore(distanceTraveled);
 		
 		if(Input.GetKey(KeyCode.RightArrow)){
 			//rigidbody.velocity = Vector3(10,0,0);
@@ -34,6 +48,24 @@ public class Player : MonoBehaviour {
 		} else {
 			rigidbody.velocity = new Vector3(0,rigidbody.velocity.y,0);
 		}
+		
+		if(transform.localPosition.y < gameOverY){
+			GameEventManager.TriggerGameOver();
+		}
+	}
+	
+	private void GameStart () {
+		distanceTraveled = 0f;
+		transform.localPosition = startPosition;
+		renderer.enabled = true;
+		rigidbody.isKinematic = false;
+		enabled = true;
+	}
+	
+	private void GameOver () {
+		renderer.enabled = false;
+		rigidbody.isKinematic = true;
+		enabled = false;
 	}
 
 	//void FixedUpdate () {
@@ -44,6 +76,7 @@ public class Player : MonoBehaviour {
 	
 	public static void AddCollectPoint(){
 		collected += 1;
+		GUIManager.AddCollectToScore();
 		//GUIManager.SetBoosts(boosts);
 	}
 
