@@ -4,16 +4,17 @@ public class Player : MonoBehaviour {
 
 	public static float distanceTraveled;
 
-	
+
 	public float acceleration;
 	public Vector3 jumpVelocity;
 	public bool boost;
 	public static bool underwater;
-	private static int collected;
+	public static int collected;
 	public float gameOverY;
 	public static Vector3 currentPosition;
 	private Vector3 startPosition;
-	
+	public static int flyTime;
+
 	private bool touchingPlatform;
 	
 	void Start() {
@@ -29,13 +30,14 @@ public class Player : MonoBehaviour {
 	
 	void Update () {
 		currentPosition = transform.localPosition;
-		
-		if((touchingPlatform || boost) && (Input.GetButtonDown("Jump"))){
+
+		if((touchingPlatform || boost || flyTime > 0) && (Input.GetButtonDown("Jump"))){
 			if (underwater){
 				rigidbody.velocity = new Vector3(rigidbody.velocity.x,15,0);
 			} else {
 				rigidbody.velocity = new Vector3(rigidbody.velocity.x,30,0);
 				if (!touchingPlatform){
+					flyTime = (flyTime>0) ? flyTime-1:flyTime;
 					boost = false;
 				}
 				else{
@@ -97,6 +99,14 @@ public class Player : MonoBehaviour {
 		collected += 1;
 		GUIManager.AddCollectToScore();
 		//GUIManager.SetBoosts(boosts);
+	}
+
+	public static void addFlyTime(){
+		flyTime += 20;
+	}
+
+	public static void GotFlyTime(){
+		addFlyTime();
 	}
 
 	void OnCollisionEnter () {

@@ -2,7 +2,8 @@
 
 public class CollectCube : MonoBehaviour {
 	public Vector3 offset;
-	public float recycleOffset, spawnChance;
+	public float recycleOffset, spawnChance, powerUpChance;
+	public bool powerUp=false;
 
 	// Use this for initialization
 	void Start () {
@@ -22,11 +23,17 @@ public class CollectCube : MonoBehaviour {
 	void OnTriggerEnter () {
 		//Runner.AddBoost();
 		Player.AddCollectPoint();
+		if(powerUp){
+			Player.GotFlyTime();
+		}
 		gameObject.SetActive(false);
 	}
 	
 	public void SpawnIfAvailable (Vector3 position) {
 		if(gameObject.activeSelf || spawnChance <= Random.Range(0f, 100f)) {
+			if (powerUpChance<=Random.Range(0f, 100f)){
+				powerUp = true;
+			}
 			return;
 		}
 		transform.localPosition = position + offset;
