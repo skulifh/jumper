@@ -37,7 +37,10 @@ public class Player : MonoBehaviour {
 			} else {
 				rigidbody.velocity = new Vector3(rigidbody.velocity.x,30,0);
 				if (!touchingPlatform){
-					flyTime = (flyTime>0) ? flyTime-1:flyTime;
+					if(flyTime > 0){
+						flyTime--;
+						GUIManager.UpdateFlyPower(-1);
+					}
 					boost = false;
 				}
 				else{
@@ -103,6 +106,7 @@ public class Player : MonoBehaviour {
 
 	public static void addFlyTime(){
 		flyTime += 20;
+		GUIManager.UpdateFlyPower (20);
 	}
 
 	public static void GotFlyTime(){
