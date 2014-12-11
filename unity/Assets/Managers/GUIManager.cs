@@ -4,10 +4,11 @@ public class GUIManager : MonoBehaviour {
 	
 	private static GUIManager instance;
 	
-	public GUIText gameOverText, instructionsText, scoreText;
+	public GUIText gameOverText, instructionsText, scoreText, flyPowerText;
 	
 	public static int added_score = 0;
 	public static float distance = 0;
+	public static int flyPower = 0;
 	
 	void Start () {
 		instance = this;
@@ -26,6 +27,7 @@ public class GUIManager : MonoBehaviour {
 		gameOverText.enabled = false;
 		instructionsText.enabled = false;
 		scoreText.enabled = true;
+		flyPowerText.enabled = true;
 		added_score = 0;
 		//runnerText.enabled = false;
 		enabled = false;
@@ -35,6 +37,7 @@ public class GUIManager : MonoBehaviour {
 		gameOverText.enabled = true;
 		instructionsText.enabled = true;
 		scoreText.enabled = false;
+		flyPowerText.enabled = false;
 		added_score = 0;
 		enabled = true;
 	}
@@ -49,7 +52,12 @@ public class GUIManager : MonoBehaviour {
 		added_score += 1;
 		instance.scoreText.text = (distance + added_score*20).ToString("f0");
 	}
-	
+
+	public static void UpdateFlyPower(int flyPowerDifference){
+		flyPower += flyPowerDifference;
+		instance.flyPowerText.text = flyPower.ToString ("f0");
+	}
+
 	//public static void SetBoosts(int boosts){
 	//	instance.boostsText.text = boosts.ToString();
 	//}
