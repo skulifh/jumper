@@ -1,20 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class WaterManager : MonoBehaviour {
-	public float waterSurface, leftWall, rightWall;
+public class Water : MonoBehaviour {
+	public float waterSurface, spawnChance, recycleOffset;
+	public static float leftWall, rightWall;
 	public int minLength, maxLength;
 	// Use this for initialization
 	void Start () {
 		//this.transform.position = new Vector3(5, -6, 5);
 		GameEventManager.GameStart += GameStart;
 		GameEventManager.GameOver += GameOver;
+		gameObject.SetActive(false);
 		
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if(transform.localPosition.x + recycleOffset < Player.distanceTraveled){
+			gameObject.SetActive(false);
+			return;
+		}
+		
 		if ((Player.currentPosition.y < waterSurface) && (Player.currentPosition.x > leftWall) && (Player.currentPosition.x < rightWall)) {
 			Player.ToggleUnderwater();
 		} else {
@@ -25,6 +32,9 @@ public class WaterManager : MonoBehaviour {
 	}
 	
 	public void Spawn (Vector3 position) {
+		if(gameObject.activeSelf || spawnChance <= Random.Range(0f, 100f)) {
+			return;
+		}
 		transform.position = position;
 		gameObject.SetActive(true);
 		int length = Random.Range(minLength, maxLength);
@@ -48,7 +58,7 @@ public class WaterManager : MonoBehaviour {
 	}
 	
 	private void GameStart () {
-		Spawn(new Vector3(27,-2,0));
+		//Spawn(new Vector3(27,-2,0));
 	}
 	
 	private void GameOver () {
