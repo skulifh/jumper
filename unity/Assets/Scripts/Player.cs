@@ -14,6 +14,8 @@ public class Player : MonoBehaviour {
 	public static Vector3 currentPosition;
 	private Vector3 startPosition;
 	public static int flyTime;
+	public static float flyScore=200;
+	public static bool flyScoreAcheived;
 
 	private bool touchingPlatform;
 	
@@ -62,7 +64,13 @@ public class Player : MonoBehaviour {
 		} else {
 			rigidbody.velocity = new Vector3(0,rigidbody.velocity.y,0);
 		}
-		
+
+		if (distanceTraveled>flyScore &! flyScoreAcheived){
+			addFlyTime(100);
+			GUIManager.UpdateFlyPower (100);
+			flyScoreAcheived = true;
+		}
+
 		if(transform.localPosition.y < gameOverY){
 			GameEventManager.TriggerGameOver();
 		}
@@ -84,12 +92,14 @@ public class Player : MonoBehaviour {
 		renderer.enabled = true;
 		rigidbody.isKinematic = false;
 		enabled = true;
+		flyScoreAcheived = false;
 	}
 	
 	private void GameOver () {
 		renderer.enabled = false;
 		rigidbody.isKinematic = true;
 		enabled = false;
+		flyScoreAcheived = false;
 	}
 
 	//void FixedUpdate () {
@@ -104,13 +114,13 @@ public class Player : MonoBehaviour {
 		//GUIManager.SetBoosts(boosts);
 	}
 
-	public static void addFlyTime(){
-		flyTime += 20;
+	public static void addFlyTime(int additionalTime){
+		flyTime += additionalTime;
 		GUIManager.UpdateFlyPower (20);
 	}
 
 	public static void GotFlyTime(){
-		addFlyTime();
+		addFlyTime(20);
 	}
 
 	void OnCollisionEnter () {
