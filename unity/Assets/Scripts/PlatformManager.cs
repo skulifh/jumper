@@ -85,7 +85,10 @@ public class PlatformManager : MonoBehaviour {
 		position.x += scale.x * 0.5f;
 		position.y += scale.y * 0.5f;
 		//if (collectcube != null){
-		collectcube.SpawnIfAvailable(position);
+		//collectcube.SpawnIfAvailable(position);
+		CollectCube waterSpawn = (CollectCube)Instantiate(collectcube, position, transform.rotation);
+		waterSpawn.SpawnIfAvailable(position);
+		
 		enemy.Spawn(position);
 		water.Spawn(new Vector3(position.x,-2,0));
 		//}

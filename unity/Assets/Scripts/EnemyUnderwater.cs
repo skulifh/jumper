@@ -8,6 +8,7 @@ public class EnemyUnderwater : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		GameEventManager.GameOver += GameOver;
+		GameEventManager.GameStart += GameStart;
 		gameObject.SetActive(true);
 	}
 	
@@ -21,6 +22,10 @@ public class EnemyUnderwater : MonoBehaviour {
 	
 	private void GameOver () {
 		gameObject.SetActive(false);
+	}
+	
+	private void GameStart () {
+		gameObject.SetActive(true);
 	}
 	
 	//Vector3 position, Vector3 scale

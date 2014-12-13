@@ -19,6 +19,8 @@ public class Water : MonoBehaviour {
 		//enemy.localPosition = new Vector3(1,1,1);
 		//enemy.Start();
 		//GameObject myCube;
+		
+		//http://answers.unity3d.com/questions/137354/instantiate-object-in-world-c.html
 		EnemyUnderwater cubeSpawn = (EnemyUnderwater)Instantiate(myCube, new Vector3(1,1,1), transform.rotation);
 		cubeSpawn.Spawn(new Vector3(3,3,0));
 		
@@ -68,6 +70,10 @@ public class Water : MonoBehaviour {
 		leftWall = this.transform.Find("Left wall").transform.position.x;
 		rightWall = this.transform.Find("Right wall").transform.position.x;
 		
+		EnemyUnderwater cubeSpawn3 = (EnemyUnderwater)Instantiate(myCube, new Vector3(1,1,1), transform.rotation);
+		cubeSpawn3.Spawn(new Vector3(transform.position.x, transform.position.y-2, 0));
+		
+		
 		//EnemyUnderwater prefab = Resources.LoadAssetAtPath<EnemyUnderwater>("Assets/Prefabs/Enemy underwater.prefab");
 		//GameObject bla = Instantiate(prefab) as GameObject;
 		
@@ -97,5 +103,7 @@ public class Water : MonoBehaviour {
 	
 	private void GameOver () {
 		gameObject.SetActive(false);
+		leftWall = 0;
+		rightWall = 0;
 	}
 }
