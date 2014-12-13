@@ -2,11 +2,11 @@
 using System.Collections;
 
 public class FlyerStrategy : MonoBehaviour {
-	private static Vector3 startPosition;
+	public Vector3 startPosition;
 	public float speed;
 	// Use this for initialization
 	void Start () {
-		startPosition = transform.position;
+		//startPosition = transform.position;
 	}
 	
 	// Update is called once per frame

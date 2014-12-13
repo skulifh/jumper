@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class PlatformManager : MonoBehaviour {
 
+	public Rigidbody flyer;
 	public Transform prefab;
 	public int numberOfObjects;
 	public float recycleOffset;
@@ -13,18 +14,23 @@ public class PlatformManager : MonoBehaviour {
 	public CollectCube collectcube;
 	public Enemy enemy;
 	public Water water;
-	
+
 	
 
 	private Vector3 nextPosition;
 	private LinkedList<Transform> objectQueue;
+	private LinkedList<Rigidbody> flyerQueue;
 
 	void Start () {
+		//Rigidbody flyer_clone;
+		//flyer_clone = Instantiate (flyer, new Vector3 (5, 10, 0), transform.rotation) as Rigidbody;
 		GameEventManager.GameStart += GameStart;
 		GameEventManager.GameOver += GameOver;
 		objectQueue = new LinkedList<Transform>();
+		flyerQueue = new LinkedList<Rigidbody>();
 		for(int i = 0; i < numberOfObjects; i++){
 			objectQueue.AddLast((Transform)Instantiate(prefab));
+			flyerQueue.AddLast((Rigidbody)Instantiate(flyer));
 		}
 		enabled = false;
 	}
@@ -52,7 +58,7 @@ public class PlatformManager : MonoBehaviour {
 				Vector3 position = nextPosition;
 				position.x += scale.x * 0.5f;
 				position.y += scale.y * 0.5f;
-				
+
 				platform.localScale = scale;
 				platform.localPosition = position;
 				
@@ -86,6 +92,18 @@ public class PlatformManager : MonoBehaviour {
 		position.y += scale.y * 0.5f;
 		//if (collectcube != null){
 		//collectcube.SpawnIfAvailable(position);
+		Rigidbody flyer_clone = flyerQueue.First.Value;
+		flyerQueue.RemoveFirst ();
+		flyer_clone.position = new Vector3 (position.x, position.y + 10, position.z);
+		FlyerStrategy flyer_strategy = flyer_clone.GetComponent<FlyerStrategy> ();
+		flyer_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
+		flyerQueue.AddLast (flyer_clone);
+		//flyer_clone = Instantiate (flyer, new Vector3 (position.x, position.y + 10, position.z), transform.rotation) as Rigidbody;
+		//flyer_clone.GetComponent<Vector3>("startPosition") = new Vector3 (position.x, position.y + 10, position.z);
+		//flyerQueue.AddLast((Rigidbody)Instantiate(flyer, new Vector3(position.x, position.y + 10, position.z, transform.rotation)) as Rigidbody);
+
+
+
 		CollectCube waterSpawn = (CollectCube)Instantiate(collectcube, position, transform.rotation);
 		waterSpawn.SpawnIfAvailable(position);
 		
