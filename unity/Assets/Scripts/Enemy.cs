@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		rigidbody.AddForce(0, -1750 , 0 );
 		if(transform.localPosition.x + recycleOffset < Player.distanceTraveled){
 			gameObject.SetActive(false);
 			return;

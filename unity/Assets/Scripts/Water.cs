@@ -5,13 +5,27 @@ public class Water : MonoBehaviour {
 	public float waterSurface, spawnChance, recycleOffset;
 	public static float leftWall, rightWall;
 	public int minLength, maxLength;
+	public EnemyUnderwater myCube;
+	//public GameObject myCube;
+	//public EnemyUnderwater enemyunderwater;
+	//public EnemyUnderwater underwaterenemy2;
 	// Use this for initialization
 	void Start () {
 		//this.transform.position = new Vector3(5, -6, 5);
 		GameEventManager.GameStart += GameStart;
 		GameEventManager.GameOver += GameOver;
 		gameObject.SetActive(false);
+		//EnemyUnderwater enemy = new EnemyUnderwater();
+		//enemy.localPosition = new Vector3(1,1,1);
+		//enemy.Start();
+		//GameObject myCube;
 		
+		//http://answers.unity3d.com/questions/137354/instantiate-object-in-world-c.html
+		EnemyUnderwater cubeSpawn = (EnemyUnderwater)Instantiate(myCube, new Vector3(1,1,1), transform.rotation);
+		cubeSpawn.Spawn(new Vector3(3,3,0));
+		
+		EnemyUnderwater cubeSpawn2 = (EnemyUnderwater)Instantiate(myCube, new Vector3(1,1,1), transform.rotation);
+		cubeSpawn2.Spawn(new Vector3(5,5,0));
 		
 	}
 	
@@ -32,7 +46,7 @@ public class Water : MonoBehaviour {
 	}
 	
 	public void Spawn (Vector3 position) {
-		if(gameObject.activeSelf || spawnChance <= Random.Range(0f, 100f)) {
+		if(gameObject.activeSelf || spawnChance <= Random.Range(0f, 100f) || Player.currentPosition.x < 100) {
 			return;
 		}
 		transform.position = position;
@@ -40,6 +54,12 @@ public class Water : MonoBehaviour {
 		int length = Random.Range(minLength, maxLength);
 		this.transform.Find("Bottom").transform.localScale = new Vector3(length, 1, 1);
 		this.transform.Find("Bottom").transform.localPosition = new Vector3(((this.transform.Find("Bottom").transform.localScale.x)/2)-4, -12, 0);
+		
+		this.transform.Find("Lid").transform.localScale = new Vector3(length-8, 1, 1);
+		this.transform.Find("Lid").transform.localPosition = new Vector3(((this.transform.Find("Lid").transform.localScale.x)/2), 1, 0);
+		
+		//this.transform.Find("Rail").transform.localScale = new Vector3(length-8, 1, 1);
+		this.transform.Find("Rail").transform.localPosition = new Vector3(((this.transform.Find("Lid").transform.localPosition.x) - (this.transform.Find("Lid").transform.localScale.x)/2), 9, 0);
 		
 		this.transform.Find("Water").transform.localScale = new Vector3(length, 13, 1);
 		this.transform.Find("Water").transform.localPosition = new Vector3(((this.transform.Find("Water").transform.localScale.x)/2)-4, -6, 1);
@@ -49,6 +69,26 @@ public class Water : MonoBehaviour {
 		waterSurface = this.transform.Find("Water").transform.localPosition.y + (this.transform.Find("Water").transform.localScale.y)/2;
 		leftWall = this.transform.Find("Left wall").transform.position.x;
 		rightWall = this.transform.Find("Right wall").transform.position.x;
+		
+		EnemyUnderwater cubeSpawn3 = (EnemyUnderwater)Instantiate(myCube, new Vector3(1,1,1), transform.rotation);
+		cubeSpawn3.Spawn(new Vector3(transform.position.x, transform.position.y-2, 0));
+		
+		
+		//EnemyUnderwater prefab = Resources.LoadAssetAtPath<EnemyUnderwater>("Assets/Prefabs/Enemy underwater.prefab");
+		//GameObject bla = Instantiate(prefab) as GameObject;
+		
+		//bla.SetActive(true);
+		
+		//bla.localPosition = this.transform.Find("Bottom").transform.localPosition;
+		//Transform prefab = Instantiate(Resources.LoadAssetAtPath("Assets/Prefabs/Enemy underwater.prefab", typeof(GameObject))) as Transform;
+		//prefab.localPosition = this.transform.Find("Bottom").transform.localPosition;
+		
+		//enemyunderwater.Spawn(this.transform.Find("Bottom").transform.localPosition, this.transform.Find("Bottom").transform.localScale);
+		//Transform enemy = Instantiate(underwaterenemy2) as Transform;
+		
+		
+		//enemy.localPosition = this.transform.Find("Bottom").transform.localPosition;
+		
 		Debug.Log(leftWall);
 		Debug.Log(transform.position);
 		//Debug.Log(Player.currentPosition.x);
@@ -63,5 +103,7 @@ public class Water : MonoBehaviour {
 	
 	private void GameOver () {
 		gameObject.SetActive(false);
+		leftWall = 0;
+		rightWall = 0;
 	}
 }

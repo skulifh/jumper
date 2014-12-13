@@ -23,7 +23,8 @@ public class Player : MonoBehaviour {
 		GameEventManager.GameStart += GameStart;
 		GameEventManager.GameOver += GameOver;
 		startPosition = transform.localPosition;
-		Physics.gravity = new Vector3(0, -100.0F, 0);
+		//Physics.gravity = new Vector3(0, -100.0F, 0);
+		
 		underwater = false;
 		renderer.enabled = false;
 		rigidbody.isKinematic = true;
@@ -31,6 +32,14 @@ public class Player : MonoBehaviour {
 	}
 	
 	void Update () {
+		//if (underwater) {
+		//	transform.rigidbody.AddForce(Vector3.up *50F);
+		//}
+		if (underwater){
+			rigidbody.AddForce(0, -400 , 0 );
+		} else {
+			rigidbody.AddForce(0, -1750 , 0 );
+		}
 		currentPosition = transform.localPosition;
 
 		if((touchingPlatform || boost || flyTime > 0) && (Input.GetButtonDown("Jump"))){
@@ -77,12 +86,13 @@ public class Player : MonoBehaviour {
 	}
 	
 	public static void ToggleUnderwater(){
-		Physics.gravity = new Vector3(0, -50.0F, 0);
+		
+		//Physics.gravity = new Vector3(0, -50.0F, 0);
 		underwater = true;
 	}
 	
 	public static void ToggleOverwater(){
-		Physics.gravity = new Vector3(0, -100.0F, 0);
+		//Physics.gravity = new Vector3(0, -100.0F, 0);
 		underwater = false;
 	}
 	

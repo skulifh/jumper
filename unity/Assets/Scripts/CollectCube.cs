@@ -8,13 +8,14 @@ public class CollectCube : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		GameEventManager.GameOver += GameOver;
-		gameObject.SetActive(false);
+		gameObject.SetActive(true);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(transform.localPosition.x + recycleOffset < Player.distanceTraveled){
 			gameObject.SetActive(false);
+			//Destroy(this);
 			return;
 		}
 	
@@ -27,10 +28,11 @@ public class CollectCube : MonoBehaviour {
 			Player.GotFlyTime();
 		}
 		gameObject.SetActive(false);
+		//Destroy(this);
 	}
 	
 	public void SpawnIfAvailable (Vector3 position) {
-		if(gameObject.activeSelf || spawnChance <= Random.Range(0f, 100f)) {
+		if(spawnChance <= Random.Range(0f, 100f)) {
 			if (powerUpChance <= Random.Range(0f, 100f)){
 				powerUp = true;
 				return;
@@ -41,6 +43,7 @@ public class CollectCube : MonoBehaviour {
 			}
 		}
 		transform.localPosition = position + offset;
+		transform.rotation = Quaternion.Euler(90,0,0);
 		gameObject.SetActive(true);
 	}
 
