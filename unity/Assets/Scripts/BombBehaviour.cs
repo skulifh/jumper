@@ -17,7 +17,10 @@ public class BombBehaviour : MonoBehaviour {
 			}
 	}
 
-	void OnTriggerEnter () {
+	void OnTriggerEnter (Collider other) {
+		if (other.gameObject.collider.name == "Player"){
+			Player.updateLives(-1);
+		}
 		Destroy(gameObject);
 	}
 }
