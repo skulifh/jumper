@@ -5,7 +5,12 @@ public class Water : MonoBehaviour {
 	public float waterSurface, spawnChance, recycleOffset;
 	public static float leftWall, rightWall;
 	public int minLength, maxLength;
-	public EnemyUnderwater myCube;
+	
+	//Underwtaer enemies
+	public Rigidbody underwater;
+	public int underwaterChance;
+	
+	private static bool initiationCycle;
 	//public GameObject myCube;
 	//public EnemyUnderwater enemyunderwater;
 	//public EnemyUnderwater underwaterenemy2;
@@ -14,18 +19,18 @@ public class Water : MonoBehaviour {
 		//this.transform.position = new Vector3(5, -6, 5);
 		GameEventManager.GameStart += GameStart;
 		GameEventManager.GameOver += GameOver;
-		gameObject.SetActive(false);
+		gameObject.SetActive(true);
 		//EnemyUnderwater enemy = new EnemyUnderwater();
 		//enemy.localPosition = new Vector3(1,1,1);
 		//enemy.Start();
 		//GameObject myCube;
 		
 		//http://answers.unity3d.com/questions/137354/instantiate-object-in-world-c.html
-		EnemyUnderwater cubeSpawn = (EnemyUnderwater)Instantiate(myCube, new Vector3(1,1,1), transform.rotation);
-		cubeSpawn.Spawn(new Vector3(3,3,0));
+		//EnemyUnderwater cubeSpawn = (EnemyUnderwater)Instantiate(myCube, new Vector3(1,1,1), transform.rotation);
+		//cubeSpawn.Spawn(new Vector3(3,3,0));
 		
-		EnemyUnderwater cubeSpawn2 = (EnemyUnderwater)Instantiate(myCube, new Vector3(1,1,1), transform.rotation);
-		cubeSpawn2.Spawn(new Vector3(5,5,0));
+		//EnemyUnderwater cubeSpawn2 = (EnemyUnderwater)Instantiate(myCube, new Vector3(1,1,1), transform.rotation);
+		//cubeSpawn2.Spawn(new Vector3(5,5,0));
 		
 	}
 	
@@ -70,9 +75,17 @@ public class Water : MonoBehaviour {
 		leftWall = this.transform.Find("Left wall").transform.position.x;
 		rightWall = this.transform.Find("Right wall").transform.position.x;
 		
-		EnemyUnderwater cubeSpawn3 = (EnemyUnderwater)Instantiate(myCube, new Vector3(1,1,1), transform.rotation);
-		cubeSpawn3.Spawn(new Vector3(transform.position.x, transform.position.y-2, 0));
+		//EnemyUnderwater cubeSpawn3 = (EnemyUnderwater)Instantiate(myCube, new Vector3(1,1,1), transform.rotation);
+		//cubeSpawn3.Spawn(new Vector3(transform.position.x, transform.position.y-2, 0));
 		
+		// Generate enemy by chance
+		//if(Player.distanceTraveled > 0 &! initiationCycle && underwaterChance <= Random.Range(0f, 100f)){
+			Rigidbody underwater_clone;
+			underwater_clone = (Rigidbody)Instantiate(underwater, new Vector3(transform.position.x, transform.position.y-2, 0), transform.rotation);
+			UnderwaterEnemyStrategy enemy_strategy = underwater_clone.GetComponent<UnderwaterEnemyStrategy> ();
+			//enemy_strategy.startPosition = new Vector3(transform.position.x, transform.position.y-2, 0);
+		
+		//}
 		
 		//EnemyUnderwater prefab = Resources.LoadAssetAtPath<EnemyUnderwater>("Assets/Prefabs/Enemy underwater.prefab");
 		//GameObject bla = Instantiate(prefab) as GameObject;
@@ -103,7 +116,7 @@ public class Water : MonoBehaviour {
 	
 	private void GameOver () {
 		gameObject.SetActive(false);
-		leftWall = 0;
-		rightWall = 0;
+		//leftWall = 0;
+		//rightWall = 0;
 	}
 }

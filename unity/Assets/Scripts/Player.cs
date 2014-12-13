@@ -110,6 +110,8 @@ public class Player : MonoBehaviour {
 		rigidbody.isKinematic = true;
 		enabled = false;
 		flyScoreAcheived = false;
+		currentPosition = new Vector3(0,0,0);
+		//Destroy(gameObject);
 	}
 
 	//void FixedUpdate () {

@@ -3,6 +3,7 @@
 public class CollectCube : MonoBehaviour {
 	public float recycleOffset;
 	public bool powerUp;
+	private bool gameover;
 
 	// Use this for initialization
 	void Start () {
@@ -12,7 +13,7 @@ public class CollectCube : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(transform.localPosition.x + recycleOffset < Player.distanceTraveled){
+		if(transform.localPosition.x + recycleOffset < Player.distanceTraveled || gameover){
 			Destroy(gameObject);
 			return;
 		}
@@ -30,6 +31,13 @@ public class CollectCube : MonoBehaviour {
 	}
 
 	private void GameOver () {
-		Destroy(gameObject);
+		gameover = true;
+		//Destroy(gameObject);
+		//return;
+		
+	}
+	
+	private void GameStart () {
+		gameover = false;
 	}
 }

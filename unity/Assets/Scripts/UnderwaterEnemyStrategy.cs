@@ -1,32 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FlyerStrategy : MonoBehaviour {
-	public Vector3 startPosition;
-	public float speed;
-	public int recycleOffset;
+public class UnderwaterEnemyStrategy : MonoBehaviour {
+	public float recycleOffset;
 	// Use this for initialization
 	void Start () {
-		//startPosition = transform.position;
+		gameObject.SetActive(true);
 		GameEventManager.GameOver += GameOver;
+		GameEventManager.GameStart += GameStart;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(transform.localPosition.x + recycleOffset < Player.distanceTraveled){
 			gameObject.SetActive(false);
+			return;
 		}
-
-		if (transform.position.x > startPosition.x + 5){
-			speed = -speed;
-		}
-		else if(transform.position.x < startPosition.x - 5){
-			speed = -speed;
-		}
-		transform.Translate (speed, 0, 0);
 	}
 	
 	private void GameOver () {
 		gameObject.SetActive(false);
+		//gameover = true;
+	}
+	
+	private void GameStart () {
+		//gameover = false;
 	}
 }
