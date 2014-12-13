@@ -13,6 +13,8 @@ public class PlatformManager : MonoBehaviour {
 	public CollectCube collectcube;
 	public Enemy enemy;
 	public Water water;
+	
+	
 
 	private Vector3 nextPosition;
 	private LinkedList<Transform> objectQueue;
