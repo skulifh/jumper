@@ -7,6 +7,12 @@ public class PlatformManager : MonoBehaviour {
 	public Rigidbody flyer;
 	public int flyerChance;
 
+	//Collectibles
+	public Transform collectable;
+	public int collectableChance;
+	public int collectablePowerUpChance;
+
+
 	public Transform prefab;
 	public int numberOfObjects;
 	public float recycleOffset;
@@ -14,14 +20,9 @@ public class PlatformManager : MonoBehaviour {
 	public Vector3 minSize, maxSize, minGap, maxGap;
 	public float minY, maxY;
 	
-	public CollectCube collectcube;
 	public Enemy enemy;
 	public Water water;
-
-	//Collectibles
-//	public int collectableSpawnChance;
-//	public int collectanlbePowerUpChance;
-
+	
 	private static bool initiationCycle;
 
 	private Vector3 nextPosition;
@@ -100,13 +101,18 @@ public class PlatformManager : MonoBehaviour {
 			FlyerStrategy flyer_strategy = flyer_clone.GetComponent<FlyerStrategy> ();
 			flyer_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
 			}
-		//if (collectcube != null){
-		//collectcube.SpawnIfAvailable(position);
-		
-		//CollectCube collectCube = (CollectCube)Instantiate(collectcube, position, transform.rotation);
 
-		//collectCube.SpawnIfAvailable(position);
-		
+		// Generate collectable by chance
+		if(Player.distanceTraveled > 0 &! initiationCycle && collectableChance <= Random.Range(0f, 100f)){
+			Transform collectable_clone;
+				collectable_clone = (Transform)Instantiate(collectable, new Vector3(position.x, position.y + 3, position.z), Quaternion.Euler(90, 0, 0))as Transform;
+			if (collectablePowerUpChance <= Random.Range(0f, 100f)){
+				CollectCube collectCube = collectable_clone.GetComponent<CollectCube> ();
+				collectCube.powerUp = true;
+				collectCube.renderer.material.color = Color.yellow;
+			}
+		}
+
 		enemy.Spawn(position);
 		water.Spawn(new Vector3(position.x,-2,0));
 		//}
