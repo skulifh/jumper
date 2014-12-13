@@ -38,6 +38,7 @@ public class GUIManager : MonoBehaviour {
 		instructionsText.enabled = true;
 		scoreText.enabled = false;
 		flyPowerText.enabled = false;
+		instance.flyPowerText.text = "0";
 		added_score = 0;
 		enabled = true;
 	}

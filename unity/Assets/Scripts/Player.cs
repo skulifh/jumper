@@ -3,6 +3,8 @@
 public class Player : MonoBehaviour {
 
 	public static float distanceTraveled;
+	
+	public static int playerLives;
 
 
 	public float acceleration;
@@ -29,6 +31,7 @@ public class Player : MonoBehaviour {
 		renderer.enabled = false;
 		rigidbody.isKinematic = true;
 		enabled = false;
+		playerLives = 5;
 	}
 	
 	void Update () {
@@ -139,6 +142,14 @@ public class Player : MonoBehaviour {
 		touchingPlatform = true;
 		boost = true; 
 	}
+	
+	public static void updateLives(int difference){
+		playerLives += difference;
+		if(playerLives < 1){
+			GameEventManager.TriggerGameOver();
+		}
+	}
+	
 
 	void OnCollisionExit () {
 		touchingPlatform = false;

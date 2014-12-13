@@ -19,7 +19,7 @@ public class Water : MonoBehaviour {
 		//this.transform.position = new Vector3(5, -6, 5);
 		GameEventManager.GameStart += GameStart;
 		GameEventManager.GameOver += GameOver;
-		gameObject.SetActive(true);
+		gameObject.SetActive(false);
 		//EnemyUnderwater enemy = new EnemyUnderwater();
 		//enemy.localPosition = new Vector3(1,1,1);
 		//enemy.Start();

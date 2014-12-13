@@ -2,11 +2,16 @@
 using System.Collections;
 
 public class FlyerStrategy : MonoBehaviour {
+
+	//Bombs
+	public Rigidbody bomb;
+
 	public Vector3 startPosition;
 	public float speed;
 	public int recycleOffset;
 	// Use this for initialization
 	void Start () {
+		InvokeRepeating ("releaseBomb", 5, 2);
 		//startPosition = transform.position;
 		GameEventManager.GameOver += GameOver;
 	}
@@ -28,5 +33,14 @@ public class FlyerStrategy : MonoBehaviour {
 	
 	private void GameOver () {
 		gameObject.SetActive(false);
+	}
+
+	void OnTriggerEnter () {
+		Player.updateLives(-1);
+	}
+
+	void releaseBomb(){
+		Vector3 launch_position = new Vector3 (transform.position.x, transform.position.y - 1, transform.position.z);
+		Instantiate (bomb, launch_position, transform.rotation);
 	}
 }

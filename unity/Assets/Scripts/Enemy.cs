@@ -36,7 +36,10 @@ public class Enemy : MonoBehaviour {
 		stopwatch = Stopwatch.StartNew();
 		transform.localPosition = position + offset;
 		gameObject.SetActive(true);
+
 	}*/
+
+
 	
 	private void GameOver () {
 		gameObject.SetActive(false);
