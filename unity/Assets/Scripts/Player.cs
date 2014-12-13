@@ -4,6 +4,7 @@ public class Player : MonoBehaviour {
 
 	public static float distanceTraveled;
 
+	public static int playerLives;
 
 	public float acceleration;
 	public Vector3 jumpVelocity;
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour {
 		renderer.enabled = false;
 		rigidbody.isKinematic = true;
 		enabled = false;
+		playerLives = 5;
 	}
 	
 	void Update () {
@@ -133,6 +135,13 @@ public class Player : MonoBehaviour {
 
 	public static void GotFlyTime(){
 		addFlyTime(20);
+	}
+
+	public static void updateLives(int difference){
+		playerLives += difference;
+		if(playerLives < 1){
+			GameEventManager.TriggerGameOver();
+		}
 	}
 
 	void OnCollisionEnter () {

@@ -25,4 +25,8 @@ public class FlyerStrategy : MonoBehaviour {
 		}
 		transform.Translate (speed, 0, 0);
 	}
+
+	void OnTriggerEnter () {
+		Player.updateLives(-1);
+	}
 }

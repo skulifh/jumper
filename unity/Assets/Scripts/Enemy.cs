@@ -37,6 +37,10 @@ public class Enemy : MonoBehaviour {
 		transform.localPosition = position + offset;
 		gameObject.SetActive(true);
 	}
+
+//	void OnTriggerEnter () {
+//		Player.updateLives(-1);
+//	}
 	
 	private void GameOver () {
 		gameObject.SetActive(false);
