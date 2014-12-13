@@ -3,6 +3,7 @@ using System.Collections;
 
 public class UnderwaterEnemyStrategy : MonoBehaviour {
 	public float recycleOffset;
+	public float swimSpeed;
 	// Use this for initialization
 	void Start () {
 		gameObject.SetActive(true);
@@ -12,6 +13,9 @@ public class UnderwaterEnemyStrategy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Player.underwater) {
+			transform.position = Vector3.MoveTowards(transform.position, Player.currentPosition, swimSpeed*Time.deltaTime);
+		}
 		if(transform.localPosition.x + recycleOffset < Player.distanceTraveled){
 			gameObject.SetActive(false);
 			return;

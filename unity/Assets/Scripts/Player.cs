@@ -14,7 +14,7 @@ public class Player : MonoBehaviour {
 	public static int collected;
 	public float gameOverY;
 	public static Vector3 currentPosition;
-	private Vector3 startPosition;
+	public Vector3 startPosition;
 	public static int flyTime;
 	public static float flyScore=200;
 	public static bool flyScoreAcheived;
@@ -24,14 +24,14 @@ public class Player : MonoBehaviour {
 	void Start() {
 		GameEventManager.GameStart += GameStart;
 		GameEventManager.GameOver += GameOver;
-		startPosition = transform.localPosition;
+		//GUIManager.SetHealth(playerLives.ToString());
 		//Physics.gravity = new Vector3(0, -100.0F, 0);
 		
 		underwater = false;
 		renderer.enabled = false;
 		rigidbody.isKinematic = true;
 		enabled = false;
-		playerLives = 5;
+		playerLives = 100;
 	}
 	
 	void Update () {
@@ -44,6 +44,7 @@ public class Player : MonoBehaviour {
 			rigidbody.AddForce(0, -1750 , 0 );
 		}
 		currentPosition = transform.localPosition;
+		//GUIManager.SetHealth();
 
 		if((touchingPlatform || boost || flyTime > 0) && (Input.GetButtonDown("Jump"))){
 			if (underwater){
@@ -78,8 +79,8 @@ public class Player : MonoBehaviour {
 		}
 
 		if (distanceTraveled>flyScore &! flyScoreAcheived){
-			addFlyTime(100);
-			GUIManager.UpdateFlyPower (100);
+			//addFlyTime(100);
+			//GUIManager.UpdateFlyPower (100);
 			flyScoreAcheived = true;
 		}
 
@@ -106,6 +107,8 @@ public class Player : MonoBehaviour {
 		rigidbody.isKinematic = false;
 		enabled = true;
 		flyScoreAcheived = false;
+		playerLives = 100;
+		GUIManager.SetHealth(playerLives.ToString());
 	}
 	
 	private void GameOver () {
@@ -145,6 +148,7 @@ public class Player : MonoBehaviour {
 	
 	public static void updateLives(int difference){
 		playerLives += difference;
+		GUIManager.SetHealth(playerLives.ToString());
 		if(playerLives < 1){
 			GameEventManager.TriggerGameOver();
 		}

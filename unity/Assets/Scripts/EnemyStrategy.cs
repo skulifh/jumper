@@ -28,7 +28,7 @@ public class EnemyStrategy : MonoBehaviour {
 		if(transform.localPosition.x + recycleOffset < Player.distanceTraveled){
 			gameObject.SetActive(false);
 		}
-			if ((stopwatch.ElapsedMilliseconds/1000) >= jumpTime){
+		if ((stopwatch.ElapsedMilliseconds) >= jumpTime){
 			rigidbody.velocity = new Vector3(rigidbody.velocity.x,30,0);
 			stopwatch = Stopwatch.StartNew();
 		}

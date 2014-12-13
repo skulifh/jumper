@@ -116,7 +116,7 @@ public class Water : MonoBehaviour {
 	
 	private void GameOver () {
 		gameObject.SetActive(false);
-		//leftWall = 0;
-		//rightWall = 0;
+		leftWall = 0;
+		rightWall = 0;
 	}
 }

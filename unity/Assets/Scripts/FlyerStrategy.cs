@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Diagnostics;
 
 public class FlyerStrategy : MonoBehaviour {
 
@@ -7,13 +8,15 @@ public class FlyerStrategy : MonoBehaviour {
 	public Transform bomb;
 
 	public Vector3 startPosition;
-	public float speed;
+	public float speed, shootTime;
 	public int recycleOffset;
+	private Stopwatch stopwatch;
 	// Use this for initialization
 	void Start () {
-		InvokeRepeating ("releaseBomb", 5, 2);
+		//InvokeRepeating ("releaseBomb", 5, 2);
 		//startPosition = transform.position;
 		GameEventManager.GameOver += GameOver;
+		stopwatch = Stopwatch.StartNew();
 	}
 	
 	// Update is called once per frame
@@ -27,6 +30,10 @@ public class FlyerStrategy : MonoBehaviour {
 		}
 		else if(transform.position.x < startPosition.x - 5){
 			speed = -speed;
+		}
+		if ((stopwatch.ElapsedMilliseconds) >= shootTime){
+			releaseBomb();
+			stopwatch = Stopwatch.StartNew();
 		}
 		transform.Translate (speed, 0, 0);
 	}
