@@ -102,6 +102,7 @@ public class Player : MonoBehaviour {
 		renderer.enabled = true;
 		rigidbody.isKinematic = false;
 		enabled = true;
+		flyTime = 0;
 		flyScoreAcheived = false;
 	}
 	
@@ -110,6 +111,7 @@ public class Player : MonoBehaviour {
 		rigidbody.isKinematic = true;
 		enabled = false;
 		flyScoreAcheived = false;
+
 	}
 
 	//void FixedUpdate () {
