@@ -148,6 +148,7 @@ public class Player : MonoBehaviour {
 		if(playerLives < 1){
 			GameEventManager.TriggerGameOver();
 		}
+		
 	}
 	
 

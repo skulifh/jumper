@@ -4,7 +4,7 @@ using System.Collections;
 public class FlyerStrategy : MonoBehaviour {
 
 	//Bombs
-	public Rigidbody bomb;
+	public Transform bomb;
 
 	public Vector3 startPosition;
 	public float speed;
