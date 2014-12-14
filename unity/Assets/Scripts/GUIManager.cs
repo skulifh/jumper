@@ -5,7 +5,7 @@ public class GUIManager : MonoBehaviour {
 	
 	private static GUIManager instance;
 	
-	public GUIText gameOverText, instructionsText, instructionsText2, instructionsText3, scoreText, flyPowerText, healthText, looseLifeText, welcomeText;
+	public GUIText gameOverText, bestScore, instructionsText, instructionsText2, instructionsText3, scoreText, flyPowerText, healthText, looseLifeText, welcomeText;
 	
 	public static int added_score = 0;
 	public static float distance = 0;
@@ -28,6 +28,7 @@ public class GUIManager : MonoBehaviour {
 	}
 	
 	private void GameStart () {
+		bestScore.enabled = false;
 		gameOverText.enabled = false;
 		welcomeText.enabled = false;
 		instructionsText.enabled = false;
@@ -35,17 +36,19 @@ public class GUIManager : MonoBehaviour {
 		instructionsText3.enabled = false;
 		healthText.enabled = true;
 		scoreText.enabled = true;
-		flyPowerText.enabled = true;
+		flyPowerText.enabled = false;
 		added_score = 0;
 		//runnerText.enabled = false;
 		enabled = false;
 	}
 	
 	private void GameOver () {
+		bestScore.text = "You scored: " + ((int)Player.distanceTraveled + Player.collected*20).ToString() + ". Your best score: " + Player.best.ToString();
+		bestScore.enabled = true;
 		gameOverText.enabled = true;
 		instructionsText.enabled = true;
 		instructionsText2.enabled = true;
-		instructionsText3.enabled = true;
+		instructionsText3.enabled = false;
 		scoreText.enabled = false;
 		healthText.enabled = false;
 		flyPowerText.enabled = false;

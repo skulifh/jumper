@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
 	
 	public static int playerLives;
 
+	public static int best;
 
 	public float acceleration;
 	public Vector3 jumpVelocity;
@@ -29,6 +30,8 @@ public class Player : MonoBehaviour {
 		//GUIManager.SetHealth(playerLives.ToString());
 		//Physics.gravity = new Vector3(0, -100.0F, 0);
 		stopwatch = Stopwatch.StartNew();
+		
+		best = 0;
 		
 		underwater = false;
 		renderer.enabled = false;
@@ -107,6 +110,8 @@ public class Player : MonoBehaviour {
 	}
 	
 	private void GameStart () {
+		underwater = false;
+		collected = 0;
 		distanceTraveled = 0f;
 		transform.localPosition = startPosition;
 		renderer.enabled = true;
@@ -123,6 +128,10 @@ public class Player : MonoBehaviour {
 		enabled = false;
 		flyScoreAcheived = false;
 		currentPosition = new Vector3(0,0,0);
+		
+		if ((int)distanceTraveled + collected*20 > best) {
+			best = (int)distanceTraveled + collected*20;
+		}
 		//Destroy(gameObject);
 	}
 

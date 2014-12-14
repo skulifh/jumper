@@ -30,4 +30,14 @@ public class UnderwaterEnemyStrategy : MonoBehaviour {
 	private void GameStart () {
 		//gameover = false;
 	}
+	
+	void OnCollisionEnter (Collision other) {
+		if (other.gameObject.collider.name == "Player"){
+			Player.updateLives(-20);
+			gameObject.SetActive(false);
+		}
+		//touchingPlatform = true;
+		//boost = true; 
+		
+	}
 }

@@ -45,6 +45,16 @@ public class FlyerStrategy : MonoBehaviour {
 	void OnTriggerEnter () {
 		Player.updateLives(-1);
 	}
+	
+	void OnCollisionEnter (Collision other) {
+		if (other.gameObject.collider.name == "Player"){
+			Player.updateLives(-20);
+			gameObject.SetActive(false);
+		}
+		//touchingPlatform = true;
+		//boost = true; 
+		
+	}
 
 	void releaseBomb(){
 		Vector3 launch_position = new Vector3 (transform.position.x, transform.position.y - 1, transform.position.z);

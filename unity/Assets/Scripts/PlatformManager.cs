@@ -99,7 +99,7 @@ public class PlatformManager : MonoBehaviour {
 		position.y += scale.y * 0.5f;
 
 		// Generate flyers by chance
-		if(Player.distanceTraveled > 0 &! initiationCycle && flyerChance <= Random.Range(0f, 100f)){
+		if(Player.distanceTraveled > 0 &! initiationCycle && flyerChance > Random.Range(0f, 100f)){
 			Rigidbody flyer_clone;
 			flyer_clone = (Rigidbody)Instantiate(flyer, new Vector3(position.x, position.y + 10, position.z), transform.rotation);
 			FlyerStrategy flyer_strategy = flyer_clone.GetComponent<FlyerStrategy> ();
@@ -107,7 +107,7 @@ public class PlatformManager : MonoBehaviour {
 		}
 		
 		// Generate enemy by chance
-		if(Player.distanceTraveled > 0 &! initiationCycle && enemyChance <= Random.Range(0f, 100f)){
+		if(Player.distanceTraveled > 0 &! initiationCycle && enemyChance > Random.Range(0f, 100f)){
 			Rigidbody enemy_clone;
 			enemy_clone = (Rigidbody)Instantiate(enemy, new Vector3(position.x, position.y + 1, position.z), transform.rotation);
 			EnemyStrategy enemy_strategy = enemy_clone.GetComponent<EnemyStrategy> ();
@@ -125,7 +125,7 @@ public class PlatformManager : MonoBehaviour {
 		}*/
 
 		// Generate collectable by chance
-		if(Player.distanceTraveled > 0 &! initiationCycle && collectableChance <= Random.Range(0f, 100f)){
+		if(Player.distanceTraveled > 0 &! initiationCycle && collectableChance > Random.Range(0f, 100f)){
 			Transform collectable_clone;
 				collectable_clone = (Transform)Instantiate(collectable, new Vector3(position.x, position.y + 3, position.z), Quaternion.Euler(90, 0, 0))as Transform;
 			if (collectablePowerUpChance > Random.Range(0f, 100f)){
