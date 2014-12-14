@@ -25,8 +25,9 @@ public class HomingBombBehaviour : MonoBehaviour {
 	void OnTriggerEnter (Collider other) {
 		if (other.gameObject.collider.name == "Player"){
 			Player.updateLives(-20);
+			Destroy(gameObject);
 		}
-		Destroy(gameObject);
+		
 	}
 	
 }

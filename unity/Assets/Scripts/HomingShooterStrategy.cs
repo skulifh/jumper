@@ -46,7 +46,7 @@ public class HomingShooterStrategy : MonoBehaviour {
 		//Vector3 launch_position = new Vector3 (transform.position.x, transform.position.y - 1, transform.position.z);
 		//Instantiate (bomb, launch_position, transform.rotation);
 		Transform bomb_clone;
-		bomb_clone = (Transform)Instantiate(bomb, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Quaternion.Euler(90, 0, 0))as Transform;
+		bomb_clone = (Transform)Instantiate(bomb, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(90, 0, 0))as Transform;
 		HomingBombBehaviour homingBomb= bomb_clone.GetComponent<HomingBombBehaviour> ();
 		//heading.Spawn(Player.currentPosition);
 	}
