@@ -20,14 +20,16 @@ public class CollectCube : MonoBehaviour {
 	
 	}
 	
-	void OnTriggerEnter () {
+	void OnTriggerEnter (Collider other) {
 		//Runner.AddBoost();
-		Player.AddCollectPoint();
-		if(powerUp){
-			Player.GotFlyTime();
+		if (other.gameObject.collider.name == "Player"){
+			Player.AddCollectPoint();
+			if(powerUp){
+				Player.GotFlyTime();
+			}
+			//gameObject.SetActive(false);
+			Destroy(gameObject);
 		}
-		//gameObject.SetActive(false);
-		Destroy(gameObject);
 	}
 
 	private void GameOver () {
