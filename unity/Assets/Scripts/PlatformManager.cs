@@ -15,14 +15,22 @@ public class PlatformManager : MonoBehaviour {
 	//Enemies
 	public Rigidbody enemy;
 	public int enemyChance;
-	
+
+	//Platform
 	public Transform prefab;
 	public int numberOfObjects;
 	public float recycleOffset;
 	public Vector3 startPosition;
 	public Vector3 minSize, maxSize, minGap, maxGap;
 	public float minY, maxY;
-	
+	public int transporterChance;
+	public int transporterWidth;
+	public int minTransporterLength;
+	public int maxTransporterLength;
+	public float transporterSpeed;
+	private bool lastTransporter;
+
+
 	//public Enemy enemy;
 	public Water water;
 	
@@ -36,6 +44,7 @@ public class PlatformManager : MonoBehaviour {
 		GameEventManager.GameStart += GameStart;
 		GameEventManager.GameOver += GameOver;
 		objectQueue = new LinkedList<Transform>();
+		lastTransporter = true;
 		for(int i = 0; i < numberOfObjects; i++){
 			objectQueue.AddLast((Transform)Instantiate(prefab));
 		}
@@ -89,15 +98,62 @@ public class PlatformManager : MonoBehaviour {
 	}
 
 	private void Recycle () {
-		Vector3 scale = new Vector3(
-			Random.Range(minSize.x, maxSize.x),
-			Random.Range(minSize.y, maxSize.y),
-			Random.Range(minSize.z, maxSize.z));
 
+		Vector3 scale = new Vector3();
 		Vector3 position = nextPosition;
 		position.x += scale.x * 0.5f;
 		position.y += scale.y * 0.5f;
 
+		// Generate platform
+		// Create platform
+		Transform o = objectQueue.First.Value;
+		PlatformBehaviour platformBehaviour = o.GetComponent<PlatformBehaviour> ();
+		// Make platform transporter?
+		if(transporterChance > Random.Range(0f, 100f) &! lastTransporter){
+			platformBehaviour.isTransporter = true;
+			platformBehaviour.renderer.material.color = Color.grey;
+			int transportLength = Random.Range(minTransporterLength, maxTransporterLength);
+			platformBehaviour.startPosition = position;
+			platformBehaviour.transporterLength = transportLength;
+			platformBehaviour.transporterWidth = transporterWidth;
+			platformBehaviour.transporterSpeed = transporterSpeed;
+			scale= new Vector3(transporterWidth, 1, 1);
+			lastTransporter = true;
+	
+
+			nextPosition += new Vector3(
+				Random.Range(minGap.x, maxGap.x) + transportLength,
+				Random.Range(minGap.y, maxGap.y),
+				Random.Range(minGap.z, maxGap.z));
+		}
+		else{
+			platformBehaviour.isTransporter = false;
+			platformBehaviour.renderer.material.color = Color.blue;
+
+			scale = new Vector3(
+				Random.Range(minSize.x, maxSize.x),
+				Random.Range(minSize.y, maxSize.y),
+				Random.Range(minSize.z, maxSize.z));
+
+			nextPosition += new Vector3(
+				Random.Range(minGap.x, maxGap.x) + scale.x,
+				Random.Range(minGap.y, maxGap.y),
+				Random.Range(minGap.z, maxGap.z));
+			lastTransporter = false;
+		}
+		objectQueue.RemoveFirst();
+		o.localScale = scale;
+		o.localPosition = position;
+		objectQueue.AddLast(o);
+
+		if(nextPosition.y < minY){
+			nextPosition.y = minY + maxGap.y;
+		}
+		else if(nextPosition.y > maxY){
+			nextPosition.y = maxY - maxGap.y;
+		}
+
+		
 		// Generate flyers by chance
 		if(Player.distanceTraveled > 0 &! initiationCycle && flyerChance > Random.Range(0f, 100f)){
 			Rigidbody flyer_clone;
@@ -112,7 +168,7 @@ public class PlatformManager : MonoBehaviour {
 			enemy_clone = (Rigidbody)Instantiate(enemy, new Vector3(position.x, position.y + 1, position.z), transform.rotation);
 			EnemyStrategy enemy_strategy = enemy_clone.GetComponent<EnemyStrategy> ();
 			enemy_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
-		
+			
 		}
 		
 		/*if(Player.distanceTraveled > 0 &! initiationCycle && enemyChance <= Random.Range(0f, 100f)){
@@ -123,11 +179,11 @@ public class PlatformManager : MonoBehaviour {
 				
 			
 		}*/
-
+		
 		// Generate collectable by chance
 		if(Player.distanceTraveled > 0 &! initiationCycle && collectableChance > Random.Range(0f, 100f)){
 			Transform collectable_clone;
-				collectable_clone = (Transform)Instantiate(collectable, new Vector3(position.x, position.y + 3, position.z), Quaternion.Euler(90, 0, 0))as Transform;
+			collectable_clone = (Transform)Instantiate(collectable, new Vector3(position.x, position.y + 3, position.z), Quaternion.Euler(90, 0, 0))as Transform;
 			if (collectablePowerUpChance > Random.Range(0f, 100f)){
 				CollectCube collectCube = collectable_clone.GetComponent<CollectCube> ();
 				collectCube.powerUp = true;
@@ -138,24 +194,6 @@ public class PlatformManager : MonoBehaviour {
 		//enemy.Spawn(position);
 		water.Spawn(new Vector3(position.x,-2,0));
 		//}
-
-		Transform o = objectQueue.First.Value;
-		objectQueue.RemoveFirst();
-		o.localScale = scale;
-		o.localPosition = position;
-		objectQueue.AddLast(o);
-
-		nextPosition += new Vector3(
-			Random.Range(minGap.x, maxGap.x) + scale.x,
-			Random.Range(minGap.y, maxGap.y),
-			Random.Range(minGap.z, maxGap.z));
-
-		if(nextPosition.y < minY){
-			nextPosition.y = minY + maxGap.y;
-		}
-		else if(nextPosition.y > maxY){
-			nextPosition.y = maxY - maxGap.y;
-		}
 	}
 	
 	private void GameStart () {
