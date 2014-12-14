@@ -5,7 +5,7 @@ public class GUIManager : MonoBehaviour {
 	
 	private static GUIManager instance;
 	
-	public GUIText gameOverText, instructionsText, scoreText, flyPowerText, healthText, looseLifeText;
+	public GUIText gameOverText, instructionsText, instructionsText2, instructionsText3, scoreText, flyPowerText, healthText, looseLifeText, welcomeText;
 	
 	public static int added_score = 0;
 	public static float distance = 0;
@@ -29,7 +29,10 @@ public class GUIManager : MonoBehaviour {
 	
 	private void GameStart () {
 		gameOverText.enabled = false;
+		welcomeText.enabled = false;
 		instructionsText.enabled = false;
+		instructionsText2.enabled = false;
+		instructionsText3.enabled = false;
 		healthText.enabled = true;
 		scoreText.enabled = true;
 		flyPowerText.enabled = true;
@@ -41,10 +44,12 @@ public class GUIManager : MonoBehaviour {
 	private void GameOver () {
 		gameOverText.enabled = true;
 		instructionsText.enabled = true;
+		instructionsText2.enabled = true;
+		instructionsText3.enabled = true;
 		scoreText.enabled = false;
 		healthText.enabled = false;
 		flyPowerText.enabled = false;
-		instance.flyPowerText.text = "0";
+		instance.flyPowerText.text = "Flypower: " + "0";
 		added_score = 0;
 		enabled = true;
 	}
@@ -52,7 +57,7 @@ public class GUIManager : MonoBehaviour {
 	public static void SetScore(float points){
 		//instance.scoreText.text = points.ToString("f0");
 		distance = points;
-		instance.scoreText.text = (distance + added_score*20).ToString("f0");
+		instance.scoreText.text = "Points: " + (distance + added_score*20).ToString("f0");
 	}
 	
 	public static void AddCollectToScore(){
@@ -61,7 +66,7 @@ public class GUIManager : MonoBehaviour {
 	}
 	
 	public static void SetHealth(string points){
-		instance.healthText.text = points;
+		instance.healthText.text = "Health: " + points;
 	}
 	
 	public static void PromtLostLife(){
@@ -75,7 +80,7 @@ public class GUIManager : MonoBehaviour {
 
 	public static void UpdateFlyPower(int flyPowerDifference){
 		flyPower += flyPowerDifference;
-		instance.flyPowerText.text = flyPower.ToString ("f0");
+		instance.flyPowerText.text = "Flypower: " + flyPower.ToString ("f0");
 	}
 
 	//public static void SetBoosts(int boosts){
