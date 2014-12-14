@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Diagnostics;
 
 public class Player : MonoBehaviour {
 
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour {
 	public static float flyScore=200;
 	public static bool flyScoreAcheived;
 
+	private static Stopwatch stopwatch;
 	private bool touchingPlatform;
 	
 	void Start() {
@@ -26,6 +28,7 @@ public class Player : MonoBehaviour {
 		GameEventManager.GameOver += GameOver;
 		//GUIManager.SetHealth(playerLives.ToString());
 		//Physics.gravity = new Vector3(0, -100.0F, 0);
+		stopwatch = Stopwatch.StartNew();
 		
 		underwater = false;
 		renderer.enabled = false;
@@ -45,6 +48,9 @@ public class Player : MonoBehaviour {
 		}
 		currentPosition = transform.localPosition;
 		//GUIManager.SetHealth();
+		if ((stopwatch.ElapsedMilliseconds) >= 1000){
+			GUIManager.DePromtLostLife();
+		}
 
 		if((touchingPlatform || boost || flyTime > 0) && (Input.GetButtonDown("Jump"))){
 			if (underwater){
@@ -149,6 +155,8 @@ public class Player : MonoBehaviour {
 	public static void updateLives(int difference){
 		playerLives += difference;
 		GUIManager.SetHealth(playerLives.ToString());
+		GUIManager.PromtLostLife();
+		stopwatch = Stopwatch.StartNew();
 		if(playerLives < 1){
 			GameEventManager.TriggerGameOver();
 		}
