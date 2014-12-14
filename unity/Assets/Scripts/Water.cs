@@ -91,7 +91,7 @@ public class Water : MonoBehaviour {
 		for (int i = 0; i < number_of_underwater; i++) {
 			
 			//UnityEngine.Debug.Log(new Vector3(transform.position.x + 4 + (length)*i/number_of_underwater, transform.position.y-2, 0));
-			underwater_clone = (Rigidbody)Instantiate(underwater, new Vector3(transform.position.x + 4 + (length)*i/number_of_underwater, transform.position.y-2, 0), transform.rotation);
+			underwater_clone = (Rigidbody)Instantiate(underwater, new Vector3(transform.position.x + 4 + (length)*i/number_of_underwater, Random.Range(transform.position.y, transform.position.y-10), 0), transform.rotation);
 			
 			enemyQueue.AddLast(underwater_clone.GetComponent<UnderwaterEnemyStrategy> ());
 		}

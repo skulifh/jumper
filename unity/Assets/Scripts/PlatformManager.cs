@@ -101,6 +101,36 @@ public class PlatformManager : MonoBehaviour {
 		Vector3 position = nextPosition;
 		position.x += scale.x * 0.5f;
 		position.y += scale.y * 0.5f;
+		
+		if(Player.distanceTraveled > 0 &! initiationCycle && collectableChance > Random.Range(0f, 100f)){
+			Transform collectable_clone;
+				collectable_clone = (Transform)Instantiate(collectable, new Vector3(position.x, position.y + 3, position.z), Quaternion.Euler(90, 0, 0))as Transform;
+			if (collectablePowerUpChance > Random.Range(0f, 100f)){
+				CollectCube collectCube = collectable_clone.GetComponent<CollectCube> ();
+				collectCube.powerUp = true;
+				collectCube.renderer.material.color = Color.yellow;
+			}
+		} else {
+		
+			if(Player.distanceTraveled > 0 &! initiationCycle && enemyChance > Random.Range(0f, 100f)){
+				Rigidbody enemy_clone;
+				enemy_clone = (Rigidbody)Instantiate(enemy, new Vector3(position.x, position.y + 1, position.z), transform.rotation);
+				EnemyStrategy enemy_strategy = enemy_clone.GetComponent<EnemyStrategy> ();
+				enemy_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
+			
+			}
+			
+			// Generate homing enemy by chance
+			if(Player.distanceTraveled > 0 &! initiationCycle && homingEnemyChance > Random.Range(0f, 100f)){
+				Rigidbody homing_enemy_clone;
+				homing_enemy_clone = (Rigidbody)Instantiate(homingEnemy, new Vector3(position.x, position.y + 1, position.z), transform.rotation);
+				HomingShooterStrategy homing_enemy_strategy = homing_enemy_clone.GetComponent<HomingShooterStrategy> ();
+				homing_enemy_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
+			
+			}
+			
+		}
+		
 
 		// Generate flyers by chance
 		if(Player.distanceTraveled > 0 &! initiationCycle && flyerChance > Random.Range(0f, 100f)){
@@ -111,22 +141,7 @@ public class PlatformManager : MonoBehaviour {
 		}
 		
 		// Generate enemy by chance
-		if(Player.distanceTraveled > 0 &! initiationCycle && enemyChance > Random.Range(0f, 100f)){
-			Rigidbody enemy_clone;
-			enemy_clone = (Rigidbody)Instantiate(enemy, new Vector3(position.x, position.y + 1, position.z), transform.rotation);
-			EnemyStrategy enemy_strategy = enemy_clone.GetComponent<EnemyStrategy> ();
-			enemy_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
 		
-		}
-		
-		// Generate homing enemy by chance
-		if(Player.distanceTraveled > 0 &! initiationCycle && homingEnemyChance > Random.Range(0f, 100f)){
-			Rigidbody homing_enemy_clone;
-			homing_enemy_clone = (Rigidbody)Instantiate(homingEnemy, new Vector3(position.x, position.y + 1, position.z), transform.rotation);
-			HomingShooterStrategy homing_enemy_strategy = homing_enemy_clone.GetComponent<HomingShooterStrategy> ();
-			homing_enemy_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
-		
-		}
 		
 		/*if(Player.distanceTraveled > 0 &! initiationCycle && enemyChance <= Random.Range(0f, 100f)){
 			Transform enemy_clone;
@@ -138,15 +153,7 @@ public class PlatformManager : MonoBehaviour {
 		}*/
 
 		// Generate collectable by chance
-		if(Player.distanceTraveled > 0 &! initiationCycle && collectableChance > Random.Range(0f, 100f)){
-			Transform collectable_clone;
-				collectable_clone = (Transform)Instantiate(collectable, new Vector3(position.x, position.y + 3, position.z), Quaternion.Euler(90, 0, 0))as Transform;
-			if (collectablePowerUpChance > Random.Range(0f, 100f)){
-				CollectCube collectCube = collectable_clone.GetComponent<CollectCube> ();
-				collectCube.powerUp = true;
-				collectCube.renderer.material.color = Color.yellow;
-			}
-		}
+		
 
 		//enemy.Spawn(position);
 		water.Spawn(new Vector3(position.x,-2,0));
