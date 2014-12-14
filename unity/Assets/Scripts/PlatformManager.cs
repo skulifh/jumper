@@ -15,8 +15,13 @@ public class PlatformManager : MonoBehaviour {
 	//Enemies
 	public Rigidbody enemy;
 	public int enemyChance;
+	
+	//Homing enemies
+	public Rigidbody homingEnemy;
+	public int homingEnemyChance;
+	
 
-	//Platform
+    //Platform
 	public Transform prefab;
 	public int numberOfObjects;
 	public float recycleOffset;
@@ -169,6 +174,15 @@ public class PlatformManager : MonoBehaviour {
 			EnemyStrategy enemy_strategy = enemy_clone.GetComponent<EnemyStrategy> ();
 			enemy_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
 			
+		}
+		
+		// Generate homing enemy by chance
+		if(Player.distanceTraveled > 0 &! initiationCycle && homingEnemyChance > Random.Range(0f, 100f)){
+			Rigidbody homing_enemy_clone;
+			homing_enemy_clone = (Rigidbody)Instantiate(homingEnemy, new Vector3(position.x, position.y + 1, position.z), transform.rotation);
+			HomingShooterStrategy homing_enemy_strategy = homing_enemy_clone.GetComponent<HomingShooterStrategy> ();
+			homing_enemy_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
+		
 		}
 		
 		/*if(Player.distanceTraveled > 0 &! initiationCycle && enemyChance <= Random.Range(0f, 100f)){

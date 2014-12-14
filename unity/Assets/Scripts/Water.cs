@@ -45,7 +45,7 @@ public class Water : MonoBehaviour {
 			return;
 		}
 		
-		if ((Player.currentPosition.y < waterSurface) && (Player.currentPosition.x > leftWall) && (Player.currentPosition.x < rightWall)) {
+		if ((Player.currentPosition.y < waterSurface-1) && (Player.currentPosition.x > leftWall) && (Player.currentPosition.x < rightWall)) {
 			Player.ToggleUnderwater();
 		} else {
 			Player.ToggleOverwater();
@@ -96,13 +96,13 @@ public class Water : MonoBehaviour {
 			enemyQueue.AddLast(underwater_clone.GetComponent<UnderwaterEnemyStrategy> ());
 		}
 		
-		int number_of_oxygen = length/24;
+		int number_of_oxygen = length/48;
 		LinkedList<Oxygen> oxygenQueue = new LinkedList<Oxygen>();
 		Transform oxygen_clone;
 		
-		for (int i = 0; i < number_of_underwater; i++) {
+		for (int i = 0; i < number_of_oxygen; i++) {
 		
-			oxygen_clone = (Transform)Instantiate(oxygen, new Vector3(transform.position.x + 2 + (length)*i/number_of_underwater, transform.position.y-2, 0), Quaternion.Euler(90, 0, 0))as Transform;
+			oxygen_clone = (Transform)Instantiate(oxygen, new Vector3(transform.position.x + 2 + (length)*i/number_of_oxygen, transform.position.y-2, 0), Quaternion.Euler(90, 0, 0))as Transform;
 			oxygenQueue.AddLast(oxygen_clone.GetComponent<Oxygen> ());
 		
 		}

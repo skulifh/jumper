@@ -200,7 +200,7 @@ public class Player : MonoBehaviour {
 
 	void OnCollisionEnter (Collision other) {
 		//UnityEngine.Debug.Log(other.gameObject.collider.name);
-		if (other.gameObject.collider.name == "Platform1(Clone)" || other.gameObject.collider.name == "Right wall" || other.gameObject.collider.name == "Lid" ){
+		if ((other.gameObject.collider.name == "Platform1(Clone)" || other.gameObject.collider.name == "Right wall" || other.gameObject.collider.name == "Lid" ) && (other.gameObject.collider.transform.localPosition.y < transform.localPosition.y)){
 			touchingPlatform = true;
 			boost = true; 
 		}

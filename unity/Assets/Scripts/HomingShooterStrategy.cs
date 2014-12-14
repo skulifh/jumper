@@ -2,19 +2,16 @@
 using System.Collections;
 using System.Diagnostics;
 
-public class FlyerStrategy : MonoBehaviour {
-
-	//Bombs
+public class HomingShooterStrategy : MonoBehaviour {
+	
 	public Transform bomb;
-
 	public Vector3 startPosition;
-	public float speed, shootTime;
+	public float shootTime;
 	public int recycleOffset;
 	private Stopwatch stopwatch;
+	
 	// Use this for initialization
 	void Start () {
-		//InvokeRepeating ("releaseBomb", 5, 2);
-		//startPosition = transform.position;
 		GameEventManager.GameOver += GameOver;
 		stopwatch = Stopwatch.StartNew();
 	}
@@ -24,26 +21,15 @@ public class FlyerStrategy : MonoBehaviour {
 		if(transform.localPosition.x + recycleOffset < Player.distanceTraveled){
 			gameObject.SetActive(false);
 		}
-
-		if (transform.position.x > startPosition.x + 5){
-			speed = -speed;
-		}
-		else if(transform.position.x < startPosition.x - 5){
-			speed = -speed;
-		}
+		
 		if ((stopwatch.ElapsedMilliseconds) >= shootTime){
 			releaseBomb();
 			stopwatch = Stopwatch.StartNew();
 		}
-		transform.Translate (speed, 0, 0);
 	}
 	
 	private void GameOver () {
 		gameObject.SetActive(false);
-	}
-
-	void OnTriggerEnter () {
-		Player.updateLives(-20);
 	}
 	
 	void OnCollisionEnter (Collision other) {
@@ -55,9 +41,13 @@ public class FlyerStrategy : MonoBehaviour {
 		//boost = true; 
 		
 	}
-
+	
 	void releaseBomb(){
-		Vector3 launch_position = new Vector3 (transform.position.x, transform.position.y - 1, transform.position.z);
-		Instantiate (bomb, launch_position, transform.rotation);
+		//Vector3 launch_position = new Vector3 (transform.position.x, transform.position.y - 1, transform.position.z);
+		//Instantiate (bomb, launch_position, transform.rotation);
+		Transform bomb_clone;
+		bomb_clone = (Transform)Instantiate(bomb, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(90, 0, 0))as Transform;
+		HomingBombBehaviour homingBomb= bomb_clone.GetComponent<HomingBombBehaviour> ();
+		//heading.Spawn(Player.currentPosition);
 	}
 }
