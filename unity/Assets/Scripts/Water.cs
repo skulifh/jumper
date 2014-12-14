@@ -80,9 +80,21 @@ public class Water : MonoBehaviour {
 		
 		// Generate enemy by chance
 		//if(Player.distanceTraveled > 0 &! initiationCycle && underwaterChance <= Random.Range(0f, 100f)){
-			Rigidbody underwater_clone;
-			underwater_clone = (Rigidbody)Instantiate(underwater, new Vector3(transform.position.x, transform.position.y-2, 0), transform.rotation);
-			UnderwaterEnemyStrategy enemy_strategy = underwater_clone.GetComponent<UnderwaterEnemyStrategy> ();
+		LinkedList<UnderwaterEnemyStrategy> enemyQueue = new LinkedList<UnderwaterEnemyStrategy>();
+		Rigidbody underwater_clone;
+		
+		int number_of_underwater = length/12;
+		for (int i = 0; i < number_of_underwater; i++) {
+			
+			UnityEngine.Debug.Log(new Vector3(transform.position.x + 4 + (length)*i/number_of_underwater, transform.position.y-2, 0));
+			underwater_clone = (Rigidbody)Instantiate(underwater, new Vector3(transform.position.x + 4 + (length)*i/number_of_underwater, transform.position.y-2, 0), transform.rotation);
+			
+			enemyQueue.AddLast(underwater_clone.GetComponent<UnderwaterEnemyStrategy> ());
+		}
+		
+		//Rigidbody underwater_clone;
+		//underwater_clone = (Rigidbody)Instantiate(underwater, new Vector3(transform.position.x, transform.position.y-2, 0), transform.rotation);
+		//UnderwaterEnemyStrategy enemy_strategy = underwater_clone.GetComponent<UnderwaterEnemyStrategy> ();
 			//enemy_strategy.startPosition = new Vector3(transform.position.x, transform.position.y-2, 0);
 		
 		//}

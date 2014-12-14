@@ -54,8 +54,26 @@ public class Player : MonoBehaviour {
 		if ((stopwatch.ElapsedMilliseconds) >= 1000){
 			GUIManager.DePromtLostLife();
 		}
-
-		if((touchingPlatform || boost || flyTime > 0) && (Input.GetButtonDown("Jump"))){
+		
+		if (Input.GetKey(KeyCode.DownArrow) && underwater) {
+			rigidbody.velocity = new Vector3(rigidbody.velocity.x,-20,0);
+		}
+		
+		
+		if (Input.GetButtonDown("Jump")) {
+			if (underwater){
+				rigidbody.velocity = new Vector3(rigidbody.velocity.x,15,0);
+			} else {
+				if (touchingPlatform) {
+					rigidbody.velocity = new Vector3(rigidbody.velocity.x,35,0);
+					touchingPlatform = false;
+				} else if (boost) {
+					rigidbody.velocity = new Vector3(rigidbody.velocity.x,35,0);
+					boost = false;
+				}
+			}
+		}
+		/*if((touchingPlatform || boost || flyTime > 0) && (Input.GetButtonDown("Jump"))){
 			if (underwater){
 				rigidbody.velocity = new Vector3(rigidbody.velocity.x,15,0);
 			} else {
@@ -72,7 +90,7 @@ public class Player : MonoBehaviour {
 				}
 			}
 			
-		}
+		}*/
 
 		
 		distanceTraveled = transform.localPosition.x;
@@ -156,9 +174,13 @@ public class Player : MonoBehaviour {
 		addFlyTime(20);
 	}
 
-	void OnCollisionEnter () {
-		touchingPlatform = true;
-		boost = true; 
+	void OnCollisionEnter (Collision other) {
+		//UnityEngine.Debug.Log(other.gameObject.collider.name);
+		if (other.gameObject.collider.name == "Platform1(Clone)"){
+			touchingPlatform = true;
+			boost = true; 
+		}
+		
 	}
 	
 	public static void updateLives(int difference){
@@ -173,7 +195,7 @@ public class Player : MonoBehaviour {
 	}
 	
 
-	void OnCollisionExit () {
+	/*void OnCollisionExit () {
 		touchingPlatform = false;
-	}
+	}*/
 }
