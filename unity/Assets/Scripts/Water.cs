@@ -39,7 +39,8 @@ public class Water : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(transform.localPosition.x + transform.localScale.x/2 + recycleOffset < Player.distanceTraveled){
+		//UnityEngine.Debug.Log((transform.localPosition.x + this.transform.Find("Bottom").transform.localScale.x + recycleOffset ).ToString());
+		if(transform.localPosition.x + this.transform.Find("Bottom").transform.localScale.x + recycleOffset < Player.distanceTraveled){
 			gameObject.SetActive(false);
 			return;
 		}
