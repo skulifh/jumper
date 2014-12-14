@@ -45,7 +45,7 @@ public class Water : MonoBehaviour {
 			return;
 		}
 		
-		if ((Player.currentPosition.y < waterSurface) && (Player.currentPosition.x > leftWall) && (Player.currentPosition.x < rightWall)) {
+		if ((Player.currentPosition.y < waterSurface-1) && (Player.currentPosition.x > leftWall) && (Player.currentPosition.x < rightWall)) {
 			Player.ToggleUnderwater();
 		} else {
 			Player.ToggleOverwater();
