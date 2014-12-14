@@ -5,7 +5,7 @@ public class GUIManager : MonoBehaviour {
 	
 	private static GUIManager instance;
 	
-	public GUIText gameOverText, bestScore, instructionsText, instructionsText2, instructionsText3, scoreText, flyPowerText, healthText, looseLifeText, welcomeText;
+	public GUIText gameOverText, oxygenAmount, bestScore, instructionsText, instructionsText2, instructionsText3, scoreText, flyPowerText, healthText, looseLifeText, welcomeText;
 	
 	public static int added_score = 0;
 	public static float distance = 0;
@@ -47,6 +47,7 @@ public class GUIManager : MonoBehaviour {
 		bestScore.enabled = true;
 		gameOverText.enabled = true;
 		instructionsText.enabled = true;
+		oxygenAmount.enabled = false;
 		instructionsText2.enabled = true;
 		instructionsText3.enabled = false;
 		scoreText.enabled = false;
@@ -61,6 +62,15 @@ public class GUIManager : MonoBehaviour {
 		//instance.scoreText.text = points.ToString("f0");
 		distance = points;
 		instance.scoreText.text = "Points: " + (distance + added_score*20).ToString("f0");
+	}
+	
+	public static void SetOxygen(int amount) {
+		instance.oxygenAmount.enabled = true;
+		instance.oxygenAmount.text = "Oxygen: " + amount.ToString();
+	}
+	
+	public static void RemoveOxygen(){
+		instance.oxygenAmount.enabled = false;
 	}
 	
 	public static void AddCollectToScore(){

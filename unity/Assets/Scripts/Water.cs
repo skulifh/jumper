@@ -10,6 +10,9 @@ public class Water : MonoBehaviour {
 	public Rigidbody underwater;
 	public int underwaterChance;
 	
+	//Oxygen
+	public Transform oxygen;
+	
 	private static bool initiationCycle;
 	//public GameObject myCube;
 	//public EnemyUnderwater enemyunderwater;
@@ -36,7 +39,7 @@ public class Water : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(transform.localPosition.x + recycleOffset < Player.distanceTraveled){
+		if(transform.localPosition.x + transform.localScale.x/2 + recycleOffset < Player.distanceTraveled){
 			gameObject.SetActive(false);
 			return;
 		}
@@ -86,10 +89,21 @@ public class Water : MonoBehaviour {
 		int number_of_underwater = length/12;
 		for (int i = 0; i < number_of_underwater; i++) {
 			
-			UnityEngine.Debug.Log(new Vector3(transform.position.x + 4 + (length)*i/number_of_underwater, transform.position.y-2, 0));
+			//UnityEngine.Debug.Log(new Vector3(transform.position.x + 4 + (length)*i/number_of_underwater, transform.position.y-2, 0));
 			underwater_clone = (Rigidbody)Instantiate(underwater, new Vector3(transform.position.x + 4 + (length)*i/number_of_underwater, transform.position.y-2, 0), transform.rotation);
 			
 			enemyQueue.AddLast(underwater_clone.GetComponent<UnderwaterEnemyStrategy> ());
+		}
+		
+		int number_of_oxygen = length/24;
+		LinkedList<Oxygen> oxygenQueue = new LinkedList<Oxygen>();
+		Transform oxygen_clone;
+		
+		for (int i = 0; i < number_of_underwater; i++) {
+		
+			oxygen_clone = (Transform)Instantiate(oxygen, new Vector3(transform.position.x + 2 + (length)*i/number_of_underwater, transform.position.y-2, 0), Quaternion.Euler(90, 0, 0))as Transform;
+			oxygenQueue.AddLast(oxygen_clone.GetComponent<Oxygen> ());
+		
 		}
 		
 		//Rigidbody underwater_clone;

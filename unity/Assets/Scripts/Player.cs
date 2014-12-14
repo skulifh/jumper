@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Diagnostics;
+using System;
 
 public class Player : MonoBehaviour {
 
 	public static float distanceTraveled;
 	
-	public static int playerLives;
+	public static int playerLives, oxygenAmount;
 
 	public static int best;
 
@@ -21,7 +22,7 @@ public class Player : MonoBehaviour {
 	public static float flyScore=200;
 	public static bool flyScoreAcheived;
 
-	private static Stopwatch stopwatch;
+	private static Stopwatch stopwatch, stopwatch2;
 	private bool touchingPlatform;
 	
 	void Start() {
@@ -38,6 +39,7 @@ public class Player : MonoBehaviour {
 		rigidbody.isKinematic = true;
 		enabled = false;
 		playerLives = 100;
+		oxygenAmount = 10;
 	}
 	
 	void Update () {
@@ -45,6 +47,11 @@ public class Player : MonoBehaviour {
 		//	transform.rigidbody.AddForce(Vector3.up *50F);
 		//}
 		if (underwater){
+			oxygenAmount = 10-(int)(stopwatch2.ElapsedMilliseconds/1000);
+			if (oxygenAmount <= 0) {
+				LooseLifeOxygen();
+			}
+			GUIManager.SetOxygen(oxygenAmount);
 			rigidbody.AddForce(0, -400 , 0 );
 		} else {
 			rigidbody.AddForce(0, -1750 , 0 );
@@ -73,6 +80,8 @@ public class Player : MonoBehaviour {
 				}
 			}
 		}
+		
+		rigidbody.velocity = new Vector3(rigidbody.velocity.x, Math.Max(rigidbody.velocity.y, -35), rigidbody.velocity.z);
 		/*if((touchingPlatform || boost || flyTime > 0) && (Input.GetButtonDown("Jump"))){
 			if (underwater){
 				rigidbody.velocity = new Vector3(rigidbody.velocity.x,15,0);
@@ -119,12 +128,17 @@ public class Player : MonoBehaviour {
 	public static void ToggleUnderwater(){
 		
 		//Physics.gravity = new Vector3(0, -50.0F, 0);
+		if (!underwater) {
+			stopwatch2 = Stopwatch.StartNew();
+		}
 		underwater = true;
+		
 	}
 	
 	public static void ToggleOverwater(){
 		//Physics.gravity = new Vector3(0, -100.0F, 0);
 		underwater = false;
+		GUIManager.RemoveOxygen();
 	}
 	
 	private void GameStart () {
@@ -137,6 +151,7 @@ public class Player : MonoBehaviour {
 		enabled = true;
 		flyScoreAcheived = false;
 		playerLives = 100;
+		oxygenAmount = 10;
 		GUIManager.SetHealth(playerLives.ToString());
 	}
 	
@@ -172,6 +187,15 @@ public class Player : MonoBehaviour {
 
 	public static void GotFlyTime(){
 		addFlyTime(20);
+	}
+	
+	public static void ResetOxygenAmount(){
+		stopwatch2 = Stopwatch.StartNew();
+	}
+	
+	public static void LooseLifeOxygen(){
+		updateLives(-20);
+		stopwatch2 = Stopwatch.StartNew();
 	}
 
 	void OnCollisionEnter (Collision other) {
