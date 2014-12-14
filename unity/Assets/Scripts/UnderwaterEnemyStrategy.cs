@@ -13,7 +13,7 @@ public class UnderwaterEnemyStrategy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Player.underwater) {
+		if (Player.underwater && transform.localPosition.x - 10 <= Player.currentPosition.x) {
 			transform.position = Vector3.MoveTowards(transform.position, Player.currentPosition, swimSpeed*Time.deltaTime);
 		}
 		if(transform.localPosition.x + recycleOffset < Player.distanceTraveled){
