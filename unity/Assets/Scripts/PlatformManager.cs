@@ -113,26 +113,20 @@ public class PlatformManager : MonoBehaviour {
 		if(Player.distanceTraveled > 0 &! initiationCycle && collectableChance > Random.Range(0f, 100f)){
 			Transform collectable_clone;
 				collectable_clone = (Transform)Instantiate(collectable, new Vector3(position.x, position.y + 3, position.z), Quaternion.Euler(90, 0, 0))as Transform;
-			if (collectablePowerUpChance > Random.Range(0f, 100f)){
-				CollectCube collectCube = collectable_clone.GetComponent<CollectCube> ();
-				collectCube.powerUp = true;
-				collectCube.renderer.material.color = Color.yellow;
-			}
+			
 			if (collectableHealthUpChance > Random.Range(0f, 100f)){
 				
 				CollectCube collectCube = collectable_clone.GetComponent<CollectCube> ();
 				collectCube.healthUp = true;
 				collectCube.renderer.material.color = Color.red;
+				
+			} else if (collectablePowerUpChance > Random.Range(0f, 100f)){
+				CollectCube collectCube = collectable_clone.GetComponent<CollectCube> ();
+				collectCube.powerUp = true;
+				collectCube.renderer.material.color = Color.yellow;
 			}
-		} else {
-			// Generate enemy by chance
-			if(Player.distanceTraveled > 0 &! initiationCycle && enemyChance > Random.Range(0f, 100f)){
-				Rigidbody enemy_clone;
-				enemy_clone = (Rigidbody)Instantiate(enemy, new Vector3(position.x, position.y + 1, position.z), transform.rotation);
-				EnemyStrategy enemy_strategy = enemy_clone.GetComponent<EnemyStrategy> ();
-				enemy_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
 			
-			}
+		} else {
 			
 			// Generate homing enemy by chance
 			if(Player.distanceTraveled > 0 &! initiationCycle && homingEnemyChance > Random.Range(0f, 100f)){
@@ -142,6 +136,17 @@ public class PlatformManager : MonoBehaviour {
 				homing_enemy_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
 			
 			}
+			
+			// Generate enemy by chance
+			else if(Player.distanceTraveled > 0 &! initiationCycle && enemyChance > Random.Range(0f, 100f)){
+				Rigidbody enemy_clone;
+				enemy_clone = (Rigidbody)Instantiate(enemy, new Vector3(position.x, position.y + 1, position.z), transform.rotation);
+				EnemyStrategy enemy_strategy = enemy_clone.GetComponent<EnemyStrategy> ();
+				enemy_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
+			
+			}
+			
+			
 			
 		}
 		

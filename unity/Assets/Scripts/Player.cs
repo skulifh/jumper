@@ -22,12 +22,16 @@ public class Player : MonoBehaviour {
 	public static float flyScore=200;
 	public static bool flyScoreAcheived;
 	
+	public int initialFlyTime;
+	
 	public static Vector3 transporterDirection;
 
 	private static Stopwatch stopwatch, stopwatch2;
 	private bool touchingPlatform;
 	
 	void Start() {
+		
+		
 		transporterDirection = new Vector3(0,0,0);
 		GameEventManager.GameStart += GameStart;
 		GameEventManager.GameOver += GameOver;
@@ -90,6 +94,10 @@ public class Player : MonoBehaviour {
 				} else if (boost) {
 					rigidbody.velocity = new Vector3(rigidbody.velocity.x,35,0);
 					boost = false;
+				} else if (flyTime > 0) {
+					rigidbody.velocity = new Vector3(rigidbody.velocity.x,35,0);
+					flyTime = flyTime - 1;
+					GUIManager.UpdateFlyPower(-1);
 				}
 			}
 		}
@@ -148,6 +156,9 @@ public class Player : MonoBehaviour {
 	}
 	
 	private void GameStart () {
+		flyTime = initialFlyTime;
+		GUIManager.UpdateFlyPower(initialFlyTime);
+		
 		underwater = false;
 		collected = 0;
 		distanceTraveled = 0f;
@@ -188,11 +199,11 @@ public class Player : MonoBehaviour {
 
 	public static void addFlyTime(int additionalTime){
 		flyTime += additionalTime;
-		GUIManager.UpdateFlyPower (20);
+		GUIManager.UpdateFlyPower (additionalTime);
 	}
 
-	public static void GotFlyTime(){
-		addFlyTime(20);
+	public static void GotFlyTime(int amount){
+		addFlyTime(amount);
 	}
 	
 	public static void ResetOxygenAmount(){

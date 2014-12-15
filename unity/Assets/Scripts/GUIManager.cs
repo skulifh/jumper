@@ -36,7 +36,7 @@ public class GUIManager : MonoBehaviour {
 		instructionsText3.enabled = false;
 		healthText.enabled = true;
 		scoreText.enabled = true;
-		flyPowerText.enabled = false;
+		flyPowerText.enabled = true;
 		added_score = 0;
 		//runnerText.enabled = false;
 		enabled = false;
@@ -53,6 +53,7 @@ public class GUIManager : MonoBehaviour {
 		scoreText.enabled = false;
 		healthText.enabled = false;
 		flyPowerText.enabled = false;
+		flyPower = 0;
 		instance.flyPowerText.text = "Flypower: " + "0";
 		added_score = 0;
 		enabled = true;
