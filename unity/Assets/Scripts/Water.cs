@@ -68,7 +68,7 @@ public class Water : MonoBehaviour {
 		this.transform.Find("Lid").transform.localPosition = new Vector3(((this.transform.Find("Lid").transform.localScale.x)/2), 1, 0);
 		
 		//this.transform.Find("Rail").transform.localScale = new Vector3(length-8, 1, 1);
-		this.transform.Find("Rail").transform.localPosition = new Vector3(((this.transform.Find("Lid").transform.localPosition.x) - (this.transform.Find("Lid").transform.localScale.x)/2), 9, 0);
+		this.transform.Find("Rail").transform.localPosition = new Vector3(((this.transform.Find("Lid").transform.localPosition.x) - (this.transform.Find("Lid").transform.localScale.x)/2), 25, 0);
 		
 		this.transform.Find("Water").transform.localScale = new Vector3(length, 13, 1);
 		this.transform.Find("Water").transform.localPosition = new Vector3(((this.transform.Find("Water").transform.localScale.x)/2)-4, -6, 1);

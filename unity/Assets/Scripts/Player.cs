@@ -81,7 +81,6 @@ public class Player : MonoBehaviour {
 		} else if (Input.GetKey(KeyCode.LeftArrow)) {
 			rigidbody.velocity = new Vector3(-10,rigidbody.velocity.y,0);
 		} else {
-			UnityEngine.Debug.Log("should move: " + transporterDirection.x);
 			rigidbody.velocity = new Vector3(transporterDirection.x,rigidbody.velocity.y,0);
 		}
 		
