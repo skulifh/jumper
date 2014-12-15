@@ -125,7 +125,7 @@ public class PlatformManager : MonoBehaviour {
 				collectCube.renderer.material.color = Color.red;
 			}
 		} else {
-		
+			// Generate enemy by chance
 			if(Player.distanceTraveled > 0 &! initiationCycle && enemyChance > Random.Range(0f, 100f)){
 				Rigidbody enemy_clone;
 				enemy_clone = (Rigidbody)Instantiate(enemy, new Vector3(position.x, position.y + 1, position.z), transform.rotation);
@@ -143,6 +143,14 @@ public class PlatformManager : MonoBehaviour {
 			
 			}
 			
+		}
+		
+		// Generate flyers by chance
+		if(Player.distanceTraveled > 0 &! initiationCycle && flyerChance > Random.Range(0f, 100f)){
+			Rigidbody flyer_clone;
+			flyer_clone = (Rigidbody)Instantiate(flyer, new Vector3(position.x, position.y + 10, position.z), transform.rotation);
+			FlyerStrategy flyer_strategy = flyer_clone.GetComponent<FlyerStrategy> ();
+			flyer_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
 		}
 		
 
@@ -196,22 +204,7 @@ public class PlatformManager : MonoBehaviour {
 			nextPosition.y = maxY - maxGap.y;
 		}
 
-		// Generate flyers by chance
-		if(Player.distanceTraveled > 0 &! initiationCycle && flyerChance > Random.Range(0f, 100f)){
-			Rigidbody flyer_clone;
-			flyer_clone = (Rigidbody)Instantiate(flyer, new Vector3(position.x, position.y + 10, position.z), transform.rotation);
-			FlyerStrategy flyer_strategy = flyer_clone.GetComponent<FlyerStrategy> ();
-			flyer_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
-		}
 		
-		// Generate enemy by chance
-		if(Player.distanceTraveled > 0 &! initiationCycle && enemyChance > Random.Range(0f, 100f)){
-			Rigidbody enemy_clone;
-			enemy_clone = (Rigidbody)Instantiate(enemy, new Vector3(position.x, position.y + 1, position.z), transform.rotation);
-			EnemyStrategy enemy_strategy = enemy_clone.GetComponent<EnemyStrategy> ();
-			enemy_strategy.startPosition = new Vector3 (position.x, position.y + 10, position.z);
-			
-		}
 
 
 		//enemy.Spawn(position);

@@ -9,11 +9,12 @@ public class PlatformBehaviour : MonoBehaviour {
 	public int transporterLength;
 	public int transporterWidth;
 	public float gap;
+	public int direction;
 	
 
 	// Use this for initialization
 	void Start () {
-	
+		direction = 1;
 	}
 	
 	// Update is called once per frame
@@ -21,9 +22,11 @@ public class PlatformBehaviour : MonoBehaviour {
 		if (isTransporter){
 			if (transform.position.x > startPosition.x + transporterLength - transporterWidth + gap){
 				transporterSpeed = -transporterSpeed;
+				direction = -direction;
 			}
 			else if(transform.position.x < startPosition.x - gap){
 				transporterSpeed = -transporterSpeed;
+				direction = -direction;
 			}
 			transform.Translate (transporterSpeed, 0, 0);
 		}
@@ -38,7 +41,25 @@ public class PlatformBehaviour : MonoBehaviour {
 	void OnCollisionEnter (Collision other) {
 		if (isTransporter){
 			if (other.gameObject.collider.name == "Player"){
-				other.gameObject.collider.transform.Translate (transporterSpeed, 0, 0);
+				Player.setTransporter(direction * new Vector3(13/2,0,0));
+			} 
+		}
+	}
+	
+	void OnCollisionStay( Collision other) {
+		if (isTransporter){
+			if (other.gameObject.collider.name == "Player"){
+				//other.gameObject.collider.transform.Translate (transporterSpeed, 0, 0);
+				Player.setTransporter(direction * new Vector3(13/2,0,0));
+			} 
+		}
+	}
+	
+	void OnCollisionExit (Collision other) {
+		if (isTransporter){
+			if (other.gameObject.collider.name == "Player"){
+				//other.gameObject.collider.transform.Translate (transporterSpeed, 0, 0);
+				Player.setTransporter(direction * new Vector3(0,0,0));
 			} 
 		}
 	}

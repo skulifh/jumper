@@ -21,11 +21,14 @@ public class Player : MonoBehaviour {
 	public static int flyTime;
 	public static float flyScore=200;
 	public static bool flyScoreAcheived;
+	
+	public static Vector3 transporterDirection;
 
 	private static Stopwatch stopwatch, stopwatch2;
 	private bool touchingPlatform;
 	
 	void Start() {
+		transporterDirection = new Vector3(0,0,0);
 		GameEventManager.GameStart += GameStart;
 		GameEventManager.GameOver += GameOver;
 		//GUIManager.SetHealth(playerLives.ToString());
@@ -46,6 +49,8 @@ public class Player : MonoBehaviour {
 		//if (underwater) {
 		//	transform.rigidbody.AddForce(Vector3.up *50F);
 		//}
+		//UnityEngine.Debug.Log(transporterDirection);
+		
 		if (underwater){
 			oxygenAmount = 10-(int)(stopwatch2.ElapsedMilliseconds/1000);
 			if (oxygenAmount <= 0) {
@@ -66,6 +71,14 @@ public class Player : MonoBehaviour {
 			rigidbody.velocity = new Vector3(rigidbody.velocity.x,-20,0);
 		}
 		
+		if(Input.GetKey(KeyCode.RightArrow)){
+			//rigidbody.velocity = Vector3(10,0,0);
+			rigidbody.velocity = new Vector3(10,rigidbody.velocity.y,0);
+		} else if (Input.GetKey(KeyCode.LeftArrow)) {
+			rigidbody.velocity = new Vector3(-10,rigidbody.velocity.y,0);
+		} else {
+			rigidbody.velocity = new Vector3(transporterDirection.x,rigidbody.velocity.y,0);
+		}
 		
 		if (Input.GetButtonDown("Jump")) {
 			if (underwater){
@@ -105,14 +118,7 @@ public class Player : MonoBehaviour {
 		distanceTraveled = transform.localPosition.x;
 		GUIManager.SetScore(distanceTraveled);
 		
-		if(Input.GetKey(KeyCode.RightArrow)){
-			//rigidbody.velocity = Vector3(10,0,0);
-			rigidbody.velocity = new Vector3(10,rigidbody.velocity.y,0);
-		} else if (Input.GetKey(KeyCode.LeftArrow)) {
-			rigidbody.velocity = new Vector3(-10,rigidbody.velocity.y,0);
-		} else {
-			rigidbody.velocity = new Vector3(0,rigidbody.velocity.y,0);
-		}
+		
 
 		if (distanceTraveled>flyScore &! flyScoreAcheived){
 			//addFlyTime(100);
@@ -224,6 +230,9 @@ public class Player : MonoBehaviour {
 		
 	}
 	
+	public static void setTransporter(Vector3 direction) {
+		transporterDirection = direction;
+	}
 	
 
 	/*void OnCollisionExit () {
