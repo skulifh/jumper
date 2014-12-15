@@ -22,6 +22,7 @@ public class Oxygen : MonoBehaviour {
 		//Runner.AddBoost();
 		if (other.gameObject.collider.name == "Player"){
 			Player.ResetOxygenAmount();
+			Player.AddCollectPoint();
 			
 			//gameObject.SetActive(false);
 			Destroy(gameObject);
