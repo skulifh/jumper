@@ -11,6 +11,8 @@ public class PlatformBehaviour : MonoBehaviour {
 	public float gap;
 	public int direction;
 	
+	private float oldLocationX;
+	
 
 	// Use this for initialization
 	void Start () {
@@ -29,6 +31,14 @@ public class PlatformBehaviour : MonoBehaviour {
 				direction = -direction;
 			}
 			transform.Translate (transporterSpeed, 0, 0);
+			
+			if (transform.position.x > oldLocationX) {
+				direction = 1;
+			} else {
+				direction = -1;
+			}
+			
+			oldLocationX = transform.position.x;
 		}
 	}
 

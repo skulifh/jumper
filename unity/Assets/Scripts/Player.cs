@@ -81,6 +81,7 @@ public class Player : MonoBehaviour {
 		} else if (Input.GetKey(KeyCode.LeftArrow)) {
 			rigidbody.velocity = new Vector3(-10,rigidbody.velocity.y,0);
 		} else {
+			UnityEngine.Debug.Log("should move: " + transporterDirection.x);
 			rigidbody.velocity = new Vector3(transporterDirection.x,rigidbody.velocity.y,0);
 		}
 		
@@ -217,10 +218,11 @@ public class Player : MonoBehaviour {
 
 	void OnCollisionEnter (Collision other) {
 		//UnityEngine.Debug.Log(other.gameObject.collider.name);
+		UnityEngine.Debug.Log(other.gameObject.collider.name);
 		if (((other.gameObject.collider.name == "Platform1(Clone)" || other.gameObject.collider.name == "Right wall" ) && (other.gameObject.collider.transform.localPosition.y < transform.localPosition.y)) || (other.gameObject.collider.name == "Lid")){
 			touchingPlatform = true;
 			boost = true; 
-		}
+		} 
 		
 	}
 	
