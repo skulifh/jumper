@@ -11,6 +11,7 @@ public class PlatformManager : MonoBehaviour {
 	public Transform collectable;
 	public int collectableChance;
 	public int collectablePowerUpChance;
+	public int collectableHealthUpChance;
 
 	//Enemies
 	public Rigidbody enemy;
@@ -117,6 +118,12 @@ public class PlatformManager : MonoBehaviour {
 				collectCube.powerUp = true;
 				collectCube.renderer.material.color = Color.yellow;
 			}
+			if (collectableHealthUpChance > Random.Range(0f, 100f)){
+				
+				CollectCube collectCube = collectable_clone.GetComponent<CollectCube> ();
+				collectCube.healthUp = true;
+				collectCube.renderer.material.color = Color.red;
+			}
 		} else {
 		
 			if(Player.distanceTraveled > 0 &! initiationCycle && enemyChance > Random.Range(0f, 100f)){
@@ -146,6 +153,7 @@ public class PlatformManager : MonoBehaviour {
 		// Make platform transporter?
 		if(transporterChance > Random.Range(0f, 100f) &! lastTransporter){
 			platformBehaviour.isTransporter = true;
+			platformBehaviour.gap = (maxGap.x + minGap.x)/2;
 			platformBehaviour.renderer.material.color = Color.grey;
 			int transportLength = Random.Range(minTransporterLength, maxTransporterLength);
 			platformBehaviour.startPosition = position;
@@ -205,16 +213,6 @@ public class PlatformManager : MonoBehaviour {
 			
 		}
 
-		// Generate collectable by chance
-		if(Player.distanceTraveled > 0 &! initiationCycle && collectableChance > Random.Range(0f, 100f)){
-			Transform collectable_clone;
-			collectable_clone = (Transform)Instantiate(collectable, new Vector3(position.x, position.y + 3, position.z), Quaternion.Euler(90, 0, 0))as Transform;
-			if (collectablePowerUpChance > Random.Range(0f, 100f)){
-				CollectCube collectCube = collectable_clone.GetComponent<CollectCube> ();
-				collectCube.powerUp = true;
-				collectCube.renderer.material.color = Color.yellow;
-			}
-		}
 
 		//enemy.Spawn(position);
 		water.Spawn(new Vector3(position.x,-2,0));

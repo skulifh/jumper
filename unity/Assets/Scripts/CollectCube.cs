@@ -2,7 +2,7 @@
 
 public class CollectCube : MonoBehaviour {
 	public float recycleOffset;
-	public bool powerUp;
+	public bool powerUp, healthUp;
 	private bool gameover;
 
 	// Use this for initialization
@@ -26,6 +26,9 @@ public class CollectCube : MonoBehaviour {
 			Player.AddCollectPoint();
 			if(powerUp){
 				Player.GotFlyTime();
+			}
+			if(healthUp){
+				Player.updateLives(20);
 			}
 			//gameObject.SetActive(false);
 			Destroy(gameObject);

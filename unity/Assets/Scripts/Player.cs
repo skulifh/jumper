@@ -209,14 +209,21 @@ public class Player : MonoBehaviour {
 	
 	public static void updateLives(int difference){
 		playerLives += difference;
+		if (playerLives > 100){
+			playerLives = 100;
+		}
+		
+		if (difference < 0){
+			GUIManager.PromtLostLife();
+			stopwatch = Stopwatch.StartNew();
+		}
 		GUIManager.SetHealth(playerLives.ToString());
-		GUIManager.PromtLostLife();
-		stopwatch = Stopwatch.StartNew();
 		if(playerLives < 1){
 			GameEventManager.TriggerGameOver();
 		}
 		
 	}
+	
 	
 
 	/*void OnCollisionExit () {

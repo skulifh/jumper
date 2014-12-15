@@ -8,6 +8,8 @@ public class PlatformBehaviour : MonoBehaviour {
 	public float transporterSpeed;
 	public int transporterLength;
 	public int transporterWidth;
+	public float gap;
+	
 
 	// Use this for initialization
 	void Start () {
@@ -17,10 +19,10 @@ public class PlatformBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (isTransporter){
-			if (transform.position.x > startPosition.x + transporterLength - transporterWidth){
+			if (transform.position.x > startPosition.x + transporterLength - transporterWidth + gap){
 				transporterSpeed = -transporterSpeed;
 			}
-			else if(transform.position.x < startPosition.x){
+			else if(transform.position.x < startPosition.x - gap){
 				transporterSpeed = -transporterSpeed;
 			}
 			transform.Translate (transporterSpeed, 0, 0);
@@ -36,8 +38,8 @@ public class PlatformBehaviour : MonoBehaviour {
 	void OnCollisionEnter (Collision other) {
 		if (isTransporter){
 			if (other.gameObject.collider.name == "Player"){
-				other.transform.Translate (transporterSpeed, 0, 0);
-			}
+				other.gameObject.collider.transform.Translate (transporterSpeed, 0, 0);
+			} 
 		}
 	}
 }
